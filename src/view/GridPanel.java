@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 
 import com.sun.java.swing.plaf.gtk.GTKConstants.IconSize;
 
-import model.Environnement;
-import model.agent.Agent;
-import model.agent.Shark;
+import model.core.Agent;
+import model.core.water.Shark;
+import model.core.water.WaterEnvironnement;
 
 public class GridPanel extends JPanel {
 

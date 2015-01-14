@@ -3,7 +3,7 @@ package controller;
 import java.awt.EventQueue;
 
 import view.MainFrame;
-import model.Environnement;
+import model.core.water.WaterEnvironnement;
 
 public class Main {
 
@@ -13,7 +13,7 @@ public class Main {
             public void run() {
                 try {
                     // initiate model
-                    Environnement env = new Environnement(80, 400, 400);
+                    WaterEnvironnement env = new WaterEnvironnement(80, 400, 400);
                     //Environnement env = new Environnement(10, 40, 20);
                     env.initiateGrid();
 
