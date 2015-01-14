@@ -23,11 +23,11 @@ import javax.swing.border.Border;
 import controller.Main;
 import model.core.Agent;
 import model.core.water.Shark;
-import model.core.water.WaterEnvironnement;
+import model.core.water.WaterEnvironment;
 
 public class MainFrame extends JFrame implements Observer {
     
-    public WaterEnvironnement environnement;
+    public WaterEnvironment environnement;
     
     public Agent[][] grid;
     
@@ -37,7 +37,7 @@ public class MainFrame extends JFrame implements Observer {
     
     public JButton nextButton;
 
-    public MainFrame(WaterEnvironnement environnement) {       
+    public MainFrame(WaterEnvironment environnement) {       
         // private variables
         this.environnement = environnement;
         setTitle("Multi-agents");

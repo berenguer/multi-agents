@@ -2,6 +2,11 @@ package model.core;
 
 public class NumberOfAgentsExceedSizeException extends Exception {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     // parameterless Constructor
     public NumberOfAgentsExceedSizeException() {
     }

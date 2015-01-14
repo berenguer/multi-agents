@@ -13,7 +13,7 @@ import com.sun.java.swing.plaf.gtk.GTKConstants.IconSize;
 
 import model.core.Agent;
 import model.core.water.Shark;
-import model.core.water.WaterEnvironnement;
+import model.core.water.WaterEnvironment;
 
 public class GridPanel extends JPanel {
 

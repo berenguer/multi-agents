@@ -3,7 +3,7 @@ package controller;
 import java.awt.EventQueue;
 
 import view.MainFrame;
-import model.core.water.WaterEnvironnement;
+import model.core.water.WaterEnvironment;
 
 public class Main {
 
@@ -13,21 +13,20 @@ public class Main {
             public void run() {
                 try {
                     // initiate model
-                    WaterEnvironnement env = new WaterEnvironnement(80, 400, 400);
-                    //Environnement env = new Environnement(10, 40, 20);
-                    env.initiateGrid();
+                    WaterEnvironment water = new WaterEnvironment(60, 200, 100);
+                    water.initiateGrid();
 
                     // initiate view
-                    MainFrame view = new MainFrame(env);
+                    MainFrame view = new MainFrame(water);
                     
                     // attach view as observer of the model
-                    env.attach(view);
+                    water.attach(view);
                     view.setVisible(true);
                     //Collections.shuffle(env.agents);
                     
-                    System.out.println("Number of agents : " + env.agents.size());
-                    System.out.println("Size of the grid : " + env.grid.length + " x " + env.grid.length);
-                    System.out.println(env.toString());
+                    System.out.println("Number of agents : " + water.agents.size());
+                    System.out.println("Size of the grid : " + water.grid.length + " x " + water.grid.length);
+                    System.out.println(water.toString());
 
                 } catch (Exception e) {
                     e.printStackTrace();

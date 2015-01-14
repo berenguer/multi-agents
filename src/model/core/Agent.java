@@ -1,7 +1,5 @@
 package model.core;
 
-import model.core.water.WaterEnvironnement;
-
 
 public abstract class Agent {
     
@@ -9,25 +7,17 @@ public abstract class Agent {
     
     public int posY;
 
-    /**
-     * Environnement contains every agents.
-     * Usefull for analyze neighbours of this agent in the grid with other agents.
-     */
-    public WaterEnvironnement env;
+    public Environment environment;
 
-    public Agent(int posX, int posY, WaterEnvironnement env) {
+    public Agent(int posX, int posY, Environment environment) {
         super();
         this.posX = posX;
         this.posY = posY;
-        this.env = env;
+        this.environment = environment;
     }
 
-    public WaterEnvironnement getEnv() {
-        return env;
-    }
-
-    public void setEnv(WaterEnvironnement env) {
-        this.env = env;
+    public Environment getEnvironment() {
+        return environment;
     }
 
     public int getPosX() {
@@ -47,8 +37,5 @@ public abstract class Agent {
     }
 
     public abstract void action();
-    
-    @Override
-    public abstract String toString();
 
 }

@@ -3,52 +3,38 @@ package model.core.water;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.core.Agent;
-
 public class Shark extends Fish {
-
-    /**
-     * Turns required before birth.
-     */
-    public int birthClassDelay;
-
-    /**
-     * Current number of turns remaining before making a child.
-     */
-    public int birthDecount;
     
     /**
      * Turns required before death.
      */
-    public int deathClassDelay;
+    public int deathDelay;
 
     /**
      * Current number of turns remaining before death.
      */
     public int deathDecount;
 
-    public Shark(int posX, int posY, int birthClassDelay, int deathClassDelay, WaterEnvironnement env) {
-        super(posX, posY, env);
-        this.birthClassDelay = birthClassDelay;
-        this.birthDecount = birthClassDelay;
-        this.deathClassDelay = deathClassDelay;
-        this.deathDecount = deathClassDelay;
+    public Shark(int posX, int posY, int birthDelay, int deathDelay, WaterEnvironment water) {
+        super(posX, posY, birthDelay, water);
+        this.deathDelay = deathDelay;
+        this.deathDecount = deathDelay;
     }
 
     @Override
     public void action() {
         if (this.deathDecount == 0) {
-            this.env.grid[this.posX][this.posY] = null;
+            this.water.grid[this.posX][this.posY] = null;
             //System.out.println("Shark.action() --> death");
         } else {
             this.age++;
-            if ((birthDecount == 0) & (this.env.search(this.posX, this.posY, null).size() > 0)) {
+            if ((birthDecount == 0) & (this.water.search(this.posX, this.posY, null).size() > 0)) {
                 birth();
                 //System.out.println("Shark.action() --> birth");
-            } else if (this.env.search(this.posX, this.posY, Tuna.class).size() > 0) {
+            } else if (this.water.search(this.posX, this.posY, Tuna.class).size() > 0) {
                 eat();
                 //System.out.println("Shark.action() --> eat");
-            } else if (this.env.search(this.posX, this.posY, null).size() > 0) {
+            } else if (this.water.search(this.posX, this.posY, null).size() > 0) {
                 move();
                 //System.out.println("Shark.action() --> move");
             }
@@ -58,53 +44,53 @@ public class Shark extends Fish {
     @Override
     public void birth() {
         // selected a random free position around the box
-        ArrayList<int[]> freePositions = this.env.search(this.posX, this.posY, null);
+        ArrayList<int[]> freePositions = this.water.search(this.posX, this.posY, null);
         Random random = new Random();
         int[] kidPosition = freePositions.get(random.nextInt(freePositions.size()));
-        Shark kid = new Shark(kidPosition[0], kidPosition[1], this.birthClassDelay, this.deathClassDelay, this.env);
+        Shark kid = new Shark(kidPosition[0], kidPosition[1], this.birthDelay, this.deathDelay, this.water);
         // update the grid
-        this.env.grid[kid.getPosX()][kid.getPosY()] = kid;
+        this.water.grid[kid.getPosX()][kid.getPosY()] = kid;
         // reset counter before the next birth
-        this.birthDecount = Integer.valueOf(this.birthClassDelay);
+        this.birthDecount = Integer.valueOf(this.birthDelay);
     }
 
     public void eat() {
         // eating restore the life
-        this.deathDecount = this.deathClassDelay;
+        this.deathDecount = this.deathDelay;
         this.birthDecount--;
         // selected a random fish around the box
-        ArrayList<int[]> fishPositions = this.env.search(this.posX, this.posY, Tuna.class);
+        ArrayList<int[]> fishPositions = this.water.search(this.posX, this.posY, Tuna.class);
         Random random = new Random();
         int[] eatenFishPosition = fishPositions.get(random.nextInt(fishPositions.size()));
         // delete eaten fish
-        this.env.removeAgent(eatenFishPosition[0], eatenFishPosition[1]);
+        this.water.removeAgent(eatenFishPosition[0], eatenFishPosition[1]);
         // remove this from the grid
-        this.env.grid[this.posX][this.posY] = null;
+        this.water.grid[this.posX][this.posY] = null;
         // set positions to the eaten fish
         this.posX = eatenFishPosition[0];
         this.posY = eatenFishPosition[1];
         // update the grid with the new position
-        this.env.grid[eatenFishPosition[0]][eatenFishPosition[1]] = this;
+        this.water.grid[eatenFishPosition[0]][eatenFishPosition[1]] = this;
     }
     
     public void move() {
         this.deathDecount--;
         this.birthDecount--;
         // selected a random free position around the box
-        ArrayList<int[]> freePositions = this.env.search(this.posX, this.posY, null);
+        ArrayList<int[]> freePositions = this.water.search(this.posX, this.posY, null);
         Random random = new Random();
         // use one available position
         int[] nextPosition = freePositions.get(random.nextInt(freePositions.size()));
         // remove this from the grid
-        this.env.grid[this.posX][this.posY] = null;
+        this.water.grid[this.posX][this.posY] = null;
         this.posX = nextPosition[0];
         this.posY = nextPosition[1];
         // update the grid with the new position
-        this.env.grid[this.posX][this.posY] = this;
+        this.water.grid[this.posX][this.posY] = this;
     }
 
     public int getBirthClassDelay() {
-        return birthClassDelay;
+        return birthDelay;
     }
 
     public int getBirthDecount() {
@@ -112,7 +98,7 @@ public class Shark extends Fish {
     }
 
     public int getDeathClassDelay() {
-        return deathClassDelay;
+        return deathDelay;
     }
 
     public int getDeathDecount() {
@@ -120,7 +106,7 @@ public class Shark extends Fish {
     }
 
     public void setBirthClassDelay(int birthClassDelay) {
-        this.birthClassDelay = birthClassDelay;
+        this.birthDelay = birthClassDelay;
     }
 
     public void setBirthDecount(int birthDecount) {
@@ -128,7 +114,7 @@ public class Shark extends Fish {
     }
 
     public void setDeathClassDelay(int deathClassDelay) {
-        this.deathClassDelay = deathClassDelay;
+        this.deathDelay = deathClassDelay;
     }
 
     public void setDeathDecount(int deathDecount) {

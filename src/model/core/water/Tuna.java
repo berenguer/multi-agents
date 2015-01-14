@@ -3,33 +3,21 @@ package model.core.water;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.core.Agent;
-
 public class Tuna extends Fish {
-    
-    /**
-     * Turns required before birth.
-     */
-    public int birthClassDelay;
-    
-    /**
-     * Current number of turns remaining before making a child.
-     */
-    public int birthDecount;
 
-    public Tuna(int posX, int posY, int birthClassDelay, WaterEnvironnement env) {
-        super(posX, posY, env);
-        this.birthClassDelay = birthClassDelay;
-        this.birthDecount = birthClassDelay;
+    public Tuna(int posX, int posY, int birthDelay, WaterEnvironment water) {
+        super(posX, posY, birthDelay, water);
+        this.birthDelay = birthDelay;
+        this.birthDecount = birthDelay;
     }
 
     @Override
     public void action() {
         this.age++;
-        if ((birthDecount == 0) & (this.env.search(this.posX, this.posY, null).size() > 0)) {
+        if ((birthDecount == 0) & (this.water.search(this.posX, this.posY, null).size() > 0)) {
             birth();
             //System.out.println("Fish.action() --> birth");
-        } else if (this.env.search(this.posX, this.posY, null).size() > 0) {
+        } else if (this.water.search(this.posX, this.posY, null).size() > 0) {
             move();
             //System.out.println("Fish.action() --> move");
         }
@@ -38,32 +26,32 @@ public class Tuna extends Fish {
     @Override
     public void birth() {
         // selected a random free position around the box
-        ArrayList<int[]> freePositions = this.env.search(this.posX, this.posY, null);
+        ArrayList<int[]> freePositions = this.water.search(this.posX, this.posY, null);
         Random random = new Random();
         int[] kidPosition = freePositions.get(random.nextInt(freePositions.size()));
-        Tuna kid = new Tuna(kidPosition[0], kidPosition[1], this.birthClassDelay, this.env);
+        Tuna kid = new Tuna(kidPosition[0], kidPosition[1], this.birthDelay, this.water);
         // update the grid
-        this.env.grid[kid.getPosX()][kid.getPosY()] = kid;
+        this.water.grid[kid.getPosX()][kid.getPosY()] = kid;
         // reset counter before the next birth
-        this.birthDecount = Integer.valueOf(this.birthClassDelay);
+        this.birthDecount = Integer.valueOf(this.birthDelay);
     }
     
     public void move() {
         this.birthDecount--;
         // selected a random free position around the box
-        ArrayList<int[]> freePositions = this.env.search(this.posX, this.posY, null);
+        ArrayList<int[]> freePositions = this.water.search(this.posX, this.posY, null);
         Random random = new Random();
         int[] nextPosition = freePositions.get(random.nextInt(freePositions.size()));
         // remove this from the grid
-        this.env.grid[this.posX][this.posY] = null;
+        this.water.grid[this.posX][this.posY] = null;
         this.posX = nextPosition[0];
         this.posY = nextPosition[1];
         // update the grid with the new position
-        this.env.grid[this.posX][this.posY] = this;
+        this.water.grid[this.posX][this.posY] = this;
     }
     
     public int getBirthClassDelay() {
-        return birthClassDelay;
+        return birthDelay;
     }
 
     public int getBirthDecount() {
@@ -71,7 +59,7 @@ public class Tuna extends Fish {
     }
 
     public void setBirthClassDelay(int birthClassDelay) {
-        this.birthClassDelay = birthClassDelay;
+        this.birthDelay = birthClassDelay;
     }
 
     public void setBirthDecount(int birthDecount) {

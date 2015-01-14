@@ -1,22 +1,17 @@
-package model;
+package model.core.water;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import view.Observer;
-import model.agent.Agent;
-import model.agent.Fish;
-import model.agent.Shark;
+import model.core.Environment;
+import model.core.NumberOfAgentsExceedSizeException;
 
-public class Environnement implements Observable {
-    
-    public Agent[][] grid;
+public class WaterEnvironment extends Environment {
+
+    public Fish[][] grid;
 
     public int nbFish;
     
@@ -24,7 +19,7 @@ public class Environnement implements Observable {
     
     public int tour;
     
-    public ArrayList<Agent> agents;
+    public ArrayList<Fish> agents;
     
     public ArrayList<Observer> observers;
     
@@ -38,14 +33,14 @@ public class Environnement implements Observable {
     
     public int turn = 0;
 
-    public Environnement(int size, int nbFish, int nbShark) throws NumberOfAgentsExceedSizeException {
-        super();
+    public WaterEnvironment(int size, int nbFish, int nbShark) throws NumberOfAgentsExceedSizeException {
+        super(size);
         try {
             if ((nbFish + nbShark) > (size * size)) {
                 throw new NumberOfAgentsExceedSizeException();
             }
             else {
-                this.grid = new Agent[size][size];
+                this.grid = new Fish[size][size];
 
                 for (int i=0;i<size;i++)
                 {
@@ -59,7 +54,7 @@ public class Environnement implements Observable {
                 this.tour = 0;
                 this.averageFishAge = 0;
                 this.averageSharkAge = 0;
-                this.agents = new ArrayList<Agent>(nbFish + nbShark);
+                this.agents = new ArrayList<Fish>(nbFish + nbShark);
             }
 
             this.runTimerTask = new TimerTask() {
@@ -89,7 +84,7 @@ public class Environnement implements Observable {
     public void doIt() {
         turn++;
         // order of agents in the turn is random
-        Collections.shuffle(Environnement.this.agents);
+        Collections.shuffle(WaterEnvironment.this.agents);
         
         //Random random = new Random();
         //System.out.println(random.nextInt(this.agents.size()) - 2);
@@ -135,8 +130,8 @@ public class Environnement implements Observable {
         for (int x = 0; x < this.grid.length; x++) {
             for (int y = 0; y < this.grid[x].length; y++) {
                 if (this.grid[x][y] != null) {
-                    if (this.grid[x][y].getClass().getSuperclass().equals(Agent.class)) {
-                        if (this.grid[x][y].getClass() == Fish.class) {
+                    if (this.grid[x][y].getClass().getSuperclass().equals(Fish.class)) {
+                        if (this.grid[x][y].getClass() == Tuna.class) {
                             this.nbFish++;
                             this.averageFishAge = this.averageFishAge + this.grid[x][y].getAge();
                         } else {
@@ -194,73 +189,6 @@ public class Environnement implements Observable {
         return null;
     }
     
-    /**
-     * Search position of occurences of the target class, when located around the box at posX, posY.
-     * Example, with the following grid
-     * ---------------------
-     *  Agent   null    Shark  
-     *  null    Agent   null
-     *  --------------------
-     *  For the Agent at (0, 0) if target is set to "null" the result is [(0, 1), (1, 0)].
-     *  For the Agent at (0, 0) if target is set to "Agent" the result is [(1, 1)].
-     * @param posX x coordinate
-     * @param posY y coordinate
-     * @param target type of Object
-     * @return arraylist with an array of the position (x, y) for each solution
-     */
-    public ArrayList<int[]> search(int posX, int posY, Type target) {
-        
-        if (this.grid.length > 1 | this.grid[0].length > 1) {
-            // values before randomising
-            int randomX = -666;
-            int randomY = -666;
-            Random random = new Random();
-            // a random number between [-1, 1]
-            randomX = (random.nextInt(3)) - 1;
-            randomY = (random.nextInt(3)) - 1;
-
-            ArrayList<int[]> positionSets = new ArrayList<int[]>();
-            int[] values = new int[3];
-            values[0] = -1;
-            values[1] = 0;
-            values[2] = 1;
-            // x and y refer to a relative shift of posX, posY
-            for (int x : values) {
-                // check if the row at x + posX is inbound
-                if ((x + posX >= 0) & (x + posX < this.grid.length)) {
-                    for (int y : values) {
-                        // check if the column at y + posY is inbound
-                        if ((y + posY >= 0) & (y + posY < this.grid.length)) {
-                            // omit the value exactly at posX, posY
-                            if (!((x == 0) & (y == 0))) {
-                                boolean saveIt = false;
-                                if ((target == null) & (this.grid[x + posX][y + posY] == null)) {
-                                    saveIt = true;
-                                } else if ((this.grid[x + posX][y + posY] != null)) {
-                                    if (this.grid[x + posX][y + posY].getClass().equals(target)) {
-                                        saveIt = true;
-                                    } 
-                                }
-                                
-                                // save values
-                                if (saveIt) {
-                                    int[] position = new int[2];
-                                    position[0] = x + posX;
-                                    position[1] = y + posY;
-                                    positionSets.add(position);
-                                    saveIt = false;
-                                }                                
-                            }
-                        }
-                    } // for y
-                } // for x
-            }
-            return positionSets;
- 
-        }
-        return null;
-    }
-    
     public void initiateGrid() {
         int nbFish_count = nbFish;
         int nbShark_count = nbShark;
@@ -271,14 +199,14 @@ public class Environnement implements Observable {
             // random = 0 place a fish or random = 1 place a shark
             int fishOrShark = (int)Math.round(Math.random() * ( 1 ));
             
-            Agent agent;
+            Fish agent;
             int[] availablePosition = findAvailablePosition();
             int posX =  availablePosition[0];
             int posY =  availablePosition[1];
             
             // create a fish, put it the grid, and referenced it in the list of agents
             if ( (fishOrShark == 0) && (nbFish_count > 0) ) {
-                agent = new Fish(posX, posY, 1, this);
+                agent = new Tuna(posX, posY, 1, this);
                 this.agents.add(agent);
                 this.grid[posX][posY] = agent;
                 nbFish_count--;
@@ -293,11 +221,11 @@ public class Environnement implements Observable {
         }
     }
     
-    public Agent[][] getGrid() {
+    public Fish[][] getGrid() {
         return grid;
     }
 
-    public void setGrid(Agent[][] grid) {
+    public void setGrid(Fish[][] grid) {
         this.grid = grid;
     }
     
@@ -314,23 +242,6 @@ public class Environnement implements Observable {
             res += "\n";
         }
         return res;
-    }
-
-    @Override
-    public void attach(Observer observeur) {
-        this.observers.add(observeur);
-    }
-
-    @Override
-    public void remove(Observer observer) {
-        this.observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObserver() {
-        for (Observer observer : this.observers) {
-            observer.update();
-        }
     }
     
 }
