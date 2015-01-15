@@ -18,9 +18,8 @@ public abstract class Fish extends Agent {
     
     int age;
 
-    public Fish(int posX, int posY, int birtheDelay, WaterEnvironment water) {
-        super(posX, posY, water);
-        this.water = water;
+    public Fish(int posX, int posY, int birthDelay, WaterEnvironment environment) {
+        super(posX, posY, environment);
         this.birthDelay = birthDelay;
         this.birthDecount = birthDelay;
         this.age = 0;
@@ -32,15 +31,6 @@ public abstract class Fish extends Agent {
     
     public int getAge() {
         return age;
-    }
-    
-    @Override
-    public WaterEnvironment getEnvironment() {
-        return water;
-    }
-
-    public void setWaterEnvironment(WaterEnvironment environment) {
-        this.water = environment;
     }
 
     public void setAge(int age) {

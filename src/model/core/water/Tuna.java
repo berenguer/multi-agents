@@ -7,8 +7,7 @@ public class Tuna extends Fish {
 
     public Tuna(int posX, int posY, int birthDelay, WaterEnvironment water) {
         super(posX, posY, birthDelay, water);
-        this.birthDelay = birthDelay;
-        this.birthDecount = birthDelay;
+        this.water = water;
     }
 
     @Override
@@ -25,6 +24,7 @@ public class Tuna extends Fish {
     
     @Override
     public void birth() {
+        System.out.println("TUNA --> BIRTH");
         // selected a random free position around the box
         ArrayList<int[]> freePositions = this.water.search(this.posX, this.posY, null);
         Random random = new Random();

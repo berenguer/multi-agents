@@ -13,7 +13,7 @@ public class Main {
             public void run() {
                 try {
                     // initiate model
-                    WaterEnvironment water = new WaterEnvironment(60, 200, 100);
+                    WaterEnvironment water = new WaterEnvironment(20, 20, 20);
                     water.initiateGrid();
 
                     // initiate view

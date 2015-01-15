@@ -43,6 +43,7 @@ public class Shark extends Fish {
     
     @Override
     public void birth() {
+        System.out.println("SHARK --> BIRTH");
         // selected a random free position around the box
         ArrayList<int[]> freePositions = this.water.search(this.posX, this.posY, null);
         Random random = new Random();

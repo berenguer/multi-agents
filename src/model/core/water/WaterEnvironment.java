@@ -64,7 +64,6 @@ public class WaterEnvironment extends Environment {
                 }
             };
             this.timer = new Timer();
-            this.observers = new ArrayList<Observer>();
         }
         catch(NumberOfAgentsExceedSizeException ex) {
              System.err.println("Too much fishs for this grid !");

@@ -7,17 +7,17 @@ public abstract class Agent {
     
     public int posY;
 
-    public Environment environment;
+    public Environment water;
 
     public Agent(int posX, int posY, Environment environment) {
         super();
         this.posX = posX;
         this.posY = posY;
-        this.environment = environment;
+        this.water = environment;
     }
 
     public Environment getEnvironment() {
-        return environment;
+        return water;
     }
 
     public int getPosX() {
