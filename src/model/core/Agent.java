@@ -1,10 +1,12 @@
 package model.core;
 
+import model.core.water.WaterEnvironment;
+
 
 public abstract class Agent {
-    
+
     public int posX;
-    
+
     public int posY;
 
     public Environment water;

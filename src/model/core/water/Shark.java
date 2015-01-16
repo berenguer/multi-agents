@@ -3,8 +3,10 @@ package model.core.water;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.core.Environment;
+
 public class Shark extends Fish {
-    
+
     /**
      * Turns required before death.
      */
@@ -19,10 +21,13 @@ public class Shark extends Fish {
         super(posX, posY, birthDelay, water);
         this.deathDelay = deathDelay;
         this.deathDecount = deathDelay;
+        this.water = water;
+
     }
 
     @Override
     public void action() {
+
         if (this.deathDecount == 0) {
             this.water.grid[this.posX][this.posY] = null;
             //System.out.println("Shark.action() --> death");
@@ -39,8 +44,8 @@ public class Shark extends Fish {
                 //System.out.println("Shark.action() --> move");
             }
         }
-    }    
-    
+    }
+
     @Override
     public void birth() {
         System.out.println("SHARK --> BIRTH");
@@ -73,7 +78,7 @@ public class Shark extends Fish {
         // update the grid with the new position
         this.water.grid[eatenFishPosition[0]][eatenFishPosition[1]] = this;
     }
-    
+
     public void move() {
         this.deathDecount--;
         this.birthDecount--;
@@ -126,5 +131,5 @@ public class Shark extends Fish {
     public String toString() {
         return "S";
     }
-    
+
 }

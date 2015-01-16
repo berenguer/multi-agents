@@ -3,6 +3,8 @@ package model.core.water;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.core.Environment;
+
 public class Tuna extends Fish {
 
     public Tuna(int posX, int posY, int birthDelay, WaterEnvironment water) {
@@ -16,12 +18,12 @@ public class Tuna extends Fish {
         if ((birthDecount == 0) & (this.water.search(this.posX, this.posY, null).size() > 0)) {
             birth();
             //System.out.println("Fish.action() --> birth");
-        } else if (this.water.search(this.posX, this.posY, null).size() > 0) {
+        } else if (water.search(this.posX, this.posY, null).size() > 0) {
             move();
             //System.out.println("Fish.action() --> move");
         }
     }
-    
+
     @Override
     public void birth() {
         System.out.println("TUNA --> BIRTH");
@@ -35,7 +37,7 @@ public class Tuna extends Fish {
         // reset counter before the next birth
         this.birthDecount = Integer.valueOf(this.birthDelay);
     }
-    
+
     public void move() {
         this.birthDecount--;
         // selected a random free position around the box
@@ -49,7 +51,7 @@ public class Tuna extends Fish {
         // update the grid with the new position
         this.water.grid[this.posX][this.posY] = this;
     }
-    
+
     public int getBirthClassDelay() {
         return birthDelay;
     }

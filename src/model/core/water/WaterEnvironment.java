@@ -14,23 +14,23 @@ public class WaterEnvironment extends Environment {
     public Fish[][] grid;
 
     public int nbFish;
-    
+
     public int nbShark;
-    
+
     public int tour;
-    
+
     public ArrayList<Fish> agents;
-    
+
     public ArrayList<Observer> observers;
-    
+
     public TimerTask runTimerTask;
-    
+
     public Timer timer;
-    
+
     public double averageFishAge;
-    
+
     public double averageSharkAge;
-    
+
     public int turn = 0;
 
     public WaterEnvironment(int size, int nbFish, int nbShark) throws NumberOfAgentsExceedSizeException {
@@ -58,7 +58,7 @@ public class WaterEnvironment extends Environment {
             }
 
             this.runTimerTask = new TimerTask() {
-                
+
                 @Override public void run() {
                     doIt();
                 }
@@ -69,14 +69,14 @@ public class WaterEnvironment extends Environment {
              System.err.println("Too much fishs for this grid !");
         }
     }
-    
+
     /**
      * Play the party.
      */
     public void run() {
         this.timer.scheduleAtFixedRate(this.runTimerTask, 0, 1);
     }
-   
+
     /**
      * Play one iteration/turn of the system.
      */
@@ -84,7 +84,7 @@ public class WaterEnvironment extends Environment {
         turn++;
         // order of agents in the turn is random
         Collections.shuffle(WaterEnvironment.this.agents);
-        
+
         //Random random = new Random();
         //System.out.println(random.nextInt(this.agents.size()) - 2);
 
@@ -98,13 +98,13 @@ public class WaterEnvironment extends Environment {
         // outputs are used to build graph 'n statistics
         // 1 a curve of the number of fish over time (a second one respectively for Sharks)
         //System.out.println(this.nbFish + "\t" + this.nbShark);
-        
+
         // 2 age structure
         //System.out.println(this.averageFishAge + "\t" + this.averageSharkAge);
-        
+
         // 3 number of fish / number of sharks (goal an ellipse)
         //System.out.println(this.nbFish + "\t" + this.nbShark + "\t" + this.nbFish / this.nbShark);
-        
+
         // 4 number of shark for each age
         /*
         HashMap hm = new HashMap();
@@ -117,10 +117,10 @@ public class WaterEnvironment extends Environment {
         }
         System.out.println(hm.toString());
         */
-        
-        
+
+
     }
-    
+
     public void updateAgentsList() {
         // update agents collections (births, dead)
         this.agents.clear();
@@ -142,7 +142,7 @@ public class WaterEnvironment extends Environment {
                 }
             }
         }
-        
+
         if (this.nbFish != 0) {
             this.averageFishAge = this.averageFishAge / this.nbFish;
         }
@@ -150,7 +150,7 @@ public class WaterEnvironment extends Environment {
             this.averageSharkAge = this.averageSharkAge / this.nbShark;
         }
     }
-    
+
     public void removeAgent(int posX, int posY) {
         this.grid[posX][posY] = null;
         for (int a = 0; a < this.agents.size(); a++) {
@@ -160,7 +160,7 @@ public class WaterEnvironment extends Environment {
             }
         }
     }
-    
+
     /**
      * Find a random free position (without any agent) into the grid.
      * @return [posX, posY]
@@ -170,16 +170,16 @@ public class WaterEnvironment extends Environment {
         // find random X and Y positions
         int posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
         int posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
-        
+
         boolean positionAvailable = false;
-        
+
         // find a random position free if still available
         while (!positionAvailable) {
             if (this.grid[posX_random][posY_random] == null) {
                 result[0] = posX_random;
                 result[1] = posY_random;
                 return result;
-                
+
             } else {
                 posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
                 posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
@@ -187,7 +187,7 @@ public class WaterEnvironment extends Environment {
         }
         return null;
     }
-    
+
     public void initiateGrid() {
         int nbFish_count = nbFish;
         int nbShark_count = nbShark;
@@ -197,12 +197,12 @@ public class WaterEnvironment extends Environment {
 
             // random = 0 place a fish or random = 1 place a shark
             int fishOrShark = (int)Math.round(Math.random() * ( 1 ));
-            
+
             Fish agent;
             int[] availablePosition = findAvailablePosition();
             int posX =  availablePosition[0];
             int posY =  availablePosition[1];
-            
+
             // create a fish, put it the grid, and referenced it in the list of agents
             if ( (fishOrShark == 0) && (nbFish_count > 0) ) {
                 agent = new Tuna(posX, posY, 1, this);
@@ -219,7 +219,7 @@ public class WaterEnvironment extends Environment {
             }
         }
     }
-    
+
     public Fish[][] getGrid() {
         return grid;
     }
@@ -227,7 +227,7 @@ public class WaterEnvironment extends Environment {
     public void setGrid(Fish[][] grid) {
         this.grid = grid;
     }
-    
+
     /**
      * Return a readable form of the grid with agents.
      */
@@ -242,5 +242,5 @@ public class WaterEnvironment extends Environment {
         }
         return res;
     }
-    
+
 }
