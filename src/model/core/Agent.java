@@ -1,7 +1,5 @@
 package model.core;
 
-import model.core.water.WaterEnvironment;
-
 
 public abstract class Agent {
 
@@ -9,17 +7,17 @@ public abstract class Agent {
 
     public int posY;
 
-    public Environment water;
+    public Environment environment;
 
     public Agent(int posX, int posY, Environment environment) {
         super();
         this.posX = posX;
         this.posY = posY;
-        this.water = environment;
+        this.environment = environment;
     }
 
     public Environment getEnvironment() {
-        return water;
+        return environment;
     }
 
     public int getPosX() {

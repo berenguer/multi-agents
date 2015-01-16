@@ -37,7 +37,7 @@ public class People extends Agent {
 			}
 			else
 			{
-				if(posY==water.grid.length)
+				if(posY==environment.grid.length)
 				{
 					//x=0 , y=max
 
@@ -50,10 +50,10 @@ public class People extends Agent {
 		else
 		{
 			//x !=0
-			if(posX==water.grid.length)
+			if(posX==environment.grid.length)
 			{
 
-				if(posY==water.grid.length)
+				if(posY==environment.grid.length)
 				{
 					//x et y = max
 				}
@@ -76,7 +76,7 @@ public class People extends Agent {
 			}
 			else
 			{
-				if(posY==water.grid.length)
+				if(posY==environment.grid.length)
 				{
 					//x standard y = max
 				}
@@ -103,9 +103,9 @@ public class People extends Agent {
 		int nbVoisinDifferentType=0;
 		People agentVoisin;
 		//voisin de droite
-		if(this.water.grid[1][0]!=null){
+		if(this.environment.grid[1][0]!=null){
 				nbVoisinTotal++;
-				agentVoisin=(People)this.water.grid[1][0];
+				agentVoisin=(People)this.environment.grid[1][0];
 				if(agentVoisin.type==this.type)
 				{
 					nbVoisinMemeType++;
@@ -116,9 +116,9 @@ public class People extends Agent {
 				}
 		}
 		//voisin du bas
-		if(this.water.grid[0][1]!=null){
+		if(this.environment.grid[0][1]!=null){
 			nbVoisinTotal++;
-			agentVoisin=(People)this.water.grid[0][1];
+			agentVoisin=(People)this.environment.grid[0][1];
 			if(agentVoisin.type==this.type)
 			{
 				nbVoisinMemeType++;
@@ -129,9 +129,9 @@ public class People extends Agent {
 			}
 	}
 		//voisin diagonal bas droite
-		if(this.water.grid[1][1]!=null){
+		if(this.environment.grid[1][1]!=null){
 			nbVoisinTotal++;
-			agentVoisin=(People)this.water.grid[1][1];
+			agentVoisin=(People)this.environment.grid[1][1];
 			if(agentVoisin.type==this.type)
 			{
 				nbVoisinMemeType++;
@@ -156,9 +156,9 @@ public class People extends Agent {
 		int nbVoisinDifferentType=0;
 		People agentVoisin;
 		//voisin de droite
-		if(this.water.grid[1][this.water.grid.length]!=null){
+		if(this.environment.grid[1][this.environment.grid.length]!=null){
 				nbVoisinTotal++;
-				agentVoisin=(People)this.water.grid[1][this.water.grid.length];
+				agentVoisin=(People)this.environment.grid[1][this.environment.grid.length];
 				if(agentVoisin.type==this.type)
 				{
 					nbVoisinMemeType++;
@@ -169,9 +169,9 @@ public class People extends Agent {
 				}
 		}
 		//voisin du haut
-		if(this.water.grid[0][this.water.grid.length-1]!=null){
+		if(this.environment.grid[0][this.environment.grid.length-1]!=null){
 			nbVoisinTotal++;
-			agentVoisin=(People)this.water.grid[0][this.water.grid.length-1];
+			agentVoisin=(People)this.environment.grid[0][this.environment.grid.length-1];
 			if(agentVoisin.type==this.type)
 			{
 				nbVoisinMemeType++;
@@ -182,9 +182,9 @@ public class People extends Agent {
 			}
 	}
 		//voisin diagonal haut droit
-		if(this.water.grid[1][this.water.grid.length-1]!=null){
+		if(this.environment.grid[1][this.environment.grid.length-1]!=null){
 			nbVoisinTotal++;
-			agentVoisin=(People)this.water.grid[1][this.water.grid.length-1];
+			agentVoisin=(People)this.environment.grid[1][this.environment.grid.length-1];
 			if(agentVoisin.type==this.type)
 			{
 				nbVoisinMemeType++;

@@ -3,8 +3,6 @@ package model.core.water;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.core.Environment;
-
 public class Shark extends Fish {
 
     /**
@@ -16,115 +14,65 @@ public class Shark extends Fish {
      * Current number of turns remaining before death.
      */
     public int deathDecount;
+    
+    ArrayList<int[]> neighborTunas;
 
-    public Shark(int posX, int posY, int birthDelay, int deathDelay, WaterEnvironment water) {
-        super(posX, posY, birthDelay, water);
+    public Shark(int posX, int posY, int birthDelay, int deathDelay, WaterEnvironment environment) {
+        super(posX, posY, birthDelay, environment);
         this.deathDelay = deathDelay;
         this.deathDecount = deathDelay;
-        this.water = water;
-
+        this.neighborTunas = new ArrayList<int[]>();
     }
 
     @Override
     public void action() {
-
-        if (this.deathDecount == 0) {
-            this.water.grid[this.posX][this.posY] = null;
+        this.neighborPositions = this.environment.search(this.posX, this.posY, null);
+        this.neighborTunas = this.environment.search(this.posX, this.posY, Tuna.class);
+        if (this.deathDecount <= 0) {
+            this.environment.grid[this.posX][this.posY] = null;
             //System.out.println("Shark.action() --> death");
-        } else {
-            this.age++;
-            if ((birthDecount == 0) & (this.water.search(this.posX, this.posY, null).size() > 0)) {
-                birth();
-                //System.out.println("Shark.action() --> birth");
-            } else if (this.water.search(this.posX, this.posY, Tuna.class).size() > 0) {
-                eat();
-                //System.out.println("Shark.action() --> eat");
-            } else if (this.water.search(this.posX, this.posY, null).size() > 0) {
-                move();
-                //System.out.println("Shark.action() --> move");
-            }
+        } else if ((birthDecount <= 0) & (this.neighborPositions.size() > 0)) {
+            birth();
+            //System.out.println("Shark.action() --> birth");
+        } else if (this.neighborTunas.size() > 0) {
+            eat();  
+            // eating restore the life
+            this.deathDecount = this.deathDelay;
+            //System.out.println("Shark.action() --> eat");
+        } else if (this.neighborPositions.size() > 0) {
+            move();
+            //System.out.println("Shark.action() --> move");
         }
+        this.age++;
+        this.birthDecount--;
+        this.deathDecount--;
     }
 
     @Override
     public void birth() {
-        System.out.println("SHARK --> BIRTH");
         // selected a random free position around the box
-        ArrayList<int[]> freePositions = this.water.search(this.posX, this.posY, null);
         Random random = new Random();
-        int[] kidPosition = freePositions.get(random.nextInt(freePositions.size()));
-        Shark kid = new Shark(kidPosition[0], kidPosition[1], this.birthDelay, this.deathDelay, this.water);
+        int[] kidPosition = this.neighborPositions.get(random.nextInt(this.neighborPositions.size()));
+        Shark kid = new Shark(kidPosition[0], kidPosition[1], this.birthDelay, this.deathDelay, this.environment);
         // update the grid
-        this.water.grid[kid.getPosX()][kid.getPosY()] = kid;
+        this.environment.grid[kid.getPosX()][kid.getPosY()] = kid;
         // reset counter before the next birth
         this.birthDecount = Integer.valueOf(this.birthDelay);
     }
 
     public void eat() {
-        // eating restore the life
-        this.deathDecount = this.deathDelay;
-        this.birthDecount--;
         // selected a random fish around the box
-        ArrayList<int[]> fishPositions = this.water.search(this.posX, this.posY, Tuna.class);
         Random random = new Random();
-        int[] eatenFishPosition = fishPositions.get(random.nextInt(fishPositions.size()));
+        int[] eatenFishPosition = this.neighborTunas.get(random.nextInt(this.neighborTunas.size()));
         // delete eaten fish
-        this.water.removeAgent(eatenFishPosition[0], eatenFishPosition[1]);
+        this.environment.removeAgent(eatenFishPosition[0], eatenFishPosition[1]);
         // remove this from the grid
-        this.water.grid[this.posX][this.posY] = null;
+        this.environment.grid[this.posX][this.posY] = null;
         // set positions to the eaten fish
         this.posX = eatenFishPosition[0];
         this.posY = eatenFishPosition[1];
         // update the grid with the new position
-        this.water.grid[eatenFishPosition[0]][eatenFishPosition[1]] = this;
-    }
-
-    public void move() {
-        this.deathDecount--;
-        this.birthDecount--;
-        // selected a random free position around the box
-        ArrayList<int[]> freePositions = this.water.search(this.posX, this.posY, null);
-        Random random = new Random();
-        // use one available position
-        int[] nextPosition = freePositions.get(random.nextInt(freePositions.size()));
-        // remove this from the grid
-        this.water.grid[this.posX][this.posY] = null;
-        this.posX = nextPosition[0];
-        this.posY = nextPosition[1];
-        // update the grid with the new position
-        this.water.grid[this.posX][this.posY] = this;
-    }
-
-    public int getBirthClassDelay() {
-        return birthDelay;
-    }
-
-    public int getBirthDecount() {
-        return birthDecount;
-    }
-
-    public int getDeathClassDelay() {
-        return deathDelay;
-    }
-
-    public int getDeathDecount() {
-        return deathDecount;
-    }
-
-    public void setBirthClassDelay(int birthClassDelay) {
-        this.birthDelay = birthClassDelay;
-    }
-
-    public void setBirthDecount(int birthDecount) {
-        this.birthDecount = birthDecount;
-    }
-
-    public void setDeathClassDelay(int deathClassDelay) {
-        this.deathDelay = deathClassDelay;
-    }
-
-    public void setDeathDecount(int deathDecount) {
-        this.deathDecount = deathDecount;
+        this.environment.grid[eatenFishPosition[0]][eatenFishPosition[1]] = this;
     }
 
     @Override
