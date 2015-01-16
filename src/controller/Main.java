@@ -3,17 +3,22 @@ package controller;
 import java.awt.EventQueue;
 
 import view.MainFrame;
+import model.core.Environment;
 import model.core.water.WaterEnvironment;
 
 public class Main {
 
     public static void main(String[] args) {
+        
+        Environment city = new Environment(20);
+
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
                     // initiate model
-                    WaterEnvironment water = new WaterEnvironment(50, 300, 300);
+                    //WaterEnvironment water = new WaterEnvironment(60, 450, 250);
+                    WaterEnvironment water = new WaterEnvironment(5, 2, 2);
                     water.initiateGrid();
 
                     // initiate view
@@ -22,7 +27,7 @@ public class Main {
                     // attach view as observer of the model
                     water.attach(view);
                     view.setVisible(true);
-                    //Collections.shuffle(env.agents);
+                    //Collections.shuffle(env.agents);                    
 
                     System.out.println("Number of agents : " + water.agents.size());
                     System.out.println("Size of the grid : " + water.grid.length + " x " + water.grid.length);
@@ -33,6 +38,6 @@ public class Main {
                 }
             }
         });
-
+        
     }
 }

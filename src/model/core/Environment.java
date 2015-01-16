@@ -2,7 +2,11 @@ package model.core;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 
+import model.core.water.Fish;
+import model.core.water.Tuna;
+import model.core.water.WaterEnvironment;
 import view.Observer;
 
 public class Environment implements Observable {
@@ -10,11 +14,14 @@ public class Environment implements Observable {
     public Agent[][] grid;
     
     public ArrayList<Observer> observers;
+    
+    public ArrayList<Agent> agents;
 
     public Environment(int size) {
         super();
         this.grid = new Agent[size][size];
         this.observers = new ArrayList<Observer>();
+        this.agents = new ArrayList<Agent>();
     }
     
     /**
@@ -72,6 +79,57 @@ public class Environment implements Observable {
             return positionSets;
         }
         return null;
+    }
+    
+    /**
+     * Find a random box in the grid without any agent.
+     * @return [posX, posY]
+     */
+    public int[] findEmptyPosition() {
+        int[] result = new int[2];
+        // find random X and Y positions
+        int posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
+        int posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
+
+        boolean positionAvailable = false;
+
+        // find a random position free if still available
+        while (!positionAvailable) {
+            if (this.grid[posX_random][posY_random] == null) {
+                result[0] = posX_random;
+                result[1] = posY_random;
+                return result;
+
+            } else {
+                posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
+                posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
+            }
+        }
+        return null;
+    }
+    
+    public void removeAgent(int posX, int posY) {
+        this.grid[posX][posY] = null;
+        for (int a = 0; a < this.agents.size(); a++) {
+            if ((this.agents.get(a).getPosX() == posX) & (this.agents.get(a).getPosY() == posY)) {
+                this.agents.remove(a);
+                this.grid[posX][posY] = null;
+            }
+        }
+    }
+    
+    public void updateAgentsList() {
+        // update agents collections
+        this.agents.clear();
+        for (int x = 0; x < this.grid.length; x++) {
+            for (int y = 0; y < this.grid[x].length; y++) {
+                if (this.grid[x][y] != null) {
+                    if (this.grid[x][y].getClass().getSuperclass().equals(Agent.class)) {
+                        this.agents.add(this.grid[x][y]);
+                    }
+                }
+            }
+        }
     }
     
     @Override

@@ -1,32 +1,21 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.KeyStroke;
-import javax.swing.border.Border;
 
-import controller.Main;
 import model.core.Agent;
-import model.core.water.Shark;
 import model.core.water.WaterEnvironment;
 
 public class MainFrame extends JFrame implements Observer {
-    
+
+    private static final long serialVersionUID = 1L;
+
     public WaterEnvironment environnement;
     
     public Agent[][] grid;
@@ -78,15 +67,14 @@ public class MainFrame extends JFrame implements Observer {
         c.gridx = 1;
         c.gridy = 1;
         this.add(nextButton, c);
-        // listeners
-        //...
         
         // validate container and subcomponents
         validate();
         pack();
         setVisible(true);
     }
-
+    // listeners
+    //...
     @Override
     public void update() {
         remove(this.gridPanel);

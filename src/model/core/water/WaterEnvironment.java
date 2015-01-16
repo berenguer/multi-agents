@@ -67,18 +67,18 @@ public class WaterEnvironment extends Environment {
     public void run() {
         this.timer.scheduleAtFixedRate(this.runTimerTask, 0, 1);
     }
-
+    
     /**
      * Play one iteration/turn of the system.
      */
     public void doIt() {
-        turn++;
         // order of agents in the turn is random
-        Collections.shuffle(WaterEnvironment.this.agents);
+        Collections.shuffle(this.agents);
 
         for (int i = 0; i < this.agents.size(); i++) {
             //System.out.println("Agent at "+String.valueOf(this.agents.get(i).getPosX()+1) + " : " + String.valueOf(this.agents.get(i).getPosY()+1));
             this.agents.get(i).action();
+            
         }
         notifyObserver();
         updateAgentsList();
@@ -165,6 +165,7 @@ public class WaterEnvironment extends Environment {
         return null;
     }
 
+    @Override
     public void updateAgentsList() {
         // update agents collections (births, dead)
         this.agents.clear();
@@ -195,61 +196,23 @@ public class WaterEnvironment extends Environment {
         }
     }
 
-    public void removeAgent(int posX, int posY) {
-        this.grid[posX][posY] = null;
-        for (int a = 0; a < this.agents.size(); a++) {
-            if ((this.agents.get(a).getPosX() == posX) & (this.agents.get(a).getPosY() == posY)) {
-                this.agents.remove(a);
-                this.grid[posX][posY] = null;
-            }
-        }
-    }
-
-    /**
-     * Find a random free position (without any agent) into the grid.
-     * @return [posX, posY]
-     */
-    public int[] findAvailablePosition() {
-        int[] result = new int[2];
-        // find random X and Y positions
-        int posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
-        int posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
-
-        boolean positionAvailable = false;
-
-        // find a random position free if still available
-        while (!positionAvailable) {
-            if (this.grid[posX_random][posY_random] == null) {
-                result[0] = posX_random;
-                result[1] = posY_random;
-                return result;
-
-            } else {
-                posX_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
-                posY_random = (int)Math.round(Math.random() * ( this.grid.length-1 ));
-            }
-        }
-        return null;
-    }
-
     public void initiateGrid() {
         int nbFish_count = nbFish;
         int nbShark_count = nbShark;
 
         // place agents into the grid
         while ( (nbFish_count | nbShark_count) > 0 ) {
-
             // random = 0 place a fish or random = 1 place a shark
             int fishOrShark = (int)Math.round(Math.random() * ( 1 ));
 
             Fish agent;
-            int[] availablePosition = findAvailablePosition();
+            int[] availablePosition = findEmptyPosition();
             int posX =  availablePosition[0];
             int posY =  availablePosition[1];
 
             // create a fish, put it the grid, and referenced it in the list of agents
             if ( (fishOrShark == 0) && (nbFish_count > 0) ) {
-                agent = new Tuna(posX, posY, 2, this);
+                agent = new Tuna(posX, posY, 1, this);
                 this.agents.add(agent);
                 this.grid[posX][posY] = agent;
                 nbFish_count--;
@@ -271,7 +234,7 @@ public class WaterEnvironment extends Environment {
     public void setGrid(Fish[][] grid) {
         this.grid = grid;
     }
-
+    
     /**
      * Return a readable form of the grid with agents.
      */

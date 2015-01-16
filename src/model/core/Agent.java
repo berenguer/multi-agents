@@ -15,6 +15,8 @@ public abstract class Agent {
         this.posY = posY;
         this.environment = environment;
     }
+    
+    public abstract void action();
 
     public Environment getEnvironment() {
         return environment;
@@ -35,7 +37,5 @@ public abstract class Agent {
     public void setPosY(int posY) {
         this.posY = posY;
     }
-
-    public abstract void action();
 
 }
