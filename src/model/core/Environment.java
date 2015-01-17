@@ -153,6 +153,21 @@ public class Environment implements Observable {
         }
     }
     
+    /**
+     * Return a readable form of the grid with agents.
+     */
+    public String toString() {
+        String res = "";
+        for (int i = 0; i < this.grid.length; i++) {
+            for (int j = 0; j < this.grid[i].length; j++) {
+                res += this.grid[i][j];
+                res += "\t";
+            }
+            res += "\n";
+        }
+        return res;
+    }
+    
     @Override
     public void attach(Observer observeur) {
         this.observers.add(observeur);

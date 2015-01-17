@@ -12,8 +12,10 @@ public class PeopleBerenguer extends Agent {
      * How many neighbors share the same type around me.
      */
     public int satisfaction;
+    
+    public int type;
 
-    public PeopleBerenguer(int posX, int posY, Environment environment, int satisfaction) {
+    public PeopleBerenguer(int posX, int posY, Environment environment, int satisfaction, int type) {
         super(posX, posY, environment);
         this.satisfaction = satisfaction;
     }
@@ -55,6 +57,10 @@ public class PeopleBerenguer extends Agent {
 
     public void setSatisfaction(int neighbors) {
         this.satisfaction = neighbors;
+    }
+    
+    public String toString() {
+        return "P";
     }
 
 }
