@@ -15,14 +15,14 @@ public class PeopleBerenguer extends Agent {
     
     public int type;
 
-    public PeopleBerenguer(int posX, int posY, Environment environment, int satisfaction, int type) {
+    public PeopleBerenguer(int posX, int posY, Environment environment, int satisfaction) {
         super(posX, posY, environment);
         this.satisfaction = satisfaction;
     }
 
     @Override
     public void action() {
-        ArrayList<int[]> neighborsPositions = this.environment.search(this.posX, this.posY, this.getClass());
+        ArrayList<int[]> neighborsPositions = this.environment.search(this.posX, this.posY, this.getClass().getName());
         // count agents with the same type around my position
         int sameTypeCounter = 0;
         for (int[] n : neighborsPositions) {
@@ -32,6 +32,7 @@ public class PeopleBerenguer extends Agent {
                 }
             }
         }
+        System.out.println("same type counter : "+sameTypeCounter);
         // change position if minimal satisfactio is not reached
         if (sameTypeCounter < this.satisfaction) {
             move();

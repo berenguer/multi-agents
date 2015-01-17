@@ -1,6 +1,5 @@
 package model.core.water;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Timer;
@@ -124,7 +123,7 @@ public class WaterEnvironment extends Environment {
      * @return arraylist with an array of the position (x, y) for each solution
      */
     @Override
-    public ArrayList<int[]> search(int posX, int posY, Type target) {
+    public ArrayList<int[]> search(int posX, int posY, String target) {
         
         if (this.grid.length > 1 | this.grid[0].length > 1) {            
 
@@ -146,7 +145,7 @@ public class WaterEnvironment extends Environment {
                                 if ((target == null) & (this.grid[x + posX][y + posY] == null)) {
                                     saveIt = true;
                                 } else if ((this.grid[x + posX][y + posY] != null)) {
-                                    if (this.grid[x + posX][y + posY].getClass().equals(target)) {
+                                    if (this.grid[x + posX][y + posY].getClass().getClass().getName() == target) {
                                         saveIt = true;
                                     } 
                                 }

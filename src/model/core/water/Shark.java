@@ -27,7 +27,7 @@ public class Shark extends Fish {
     @Override
     public void action() {
         this.neighborPositions = this.environment.search(this.posX, this.posY, null);
-        this.neighborTunas = this.environment.search(this.posX, this.posY, Tuna.class);
+        this.neighborTunas = this.environment.search(this.posX, this.posY, Tuna.class.getName());
         if (this.deathDecount <= 0) {
             this.environment.grid[this.posX][this.posY] = null;
             //System.out.println("Shark.action() --> death");

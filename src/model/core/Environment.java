@@ -1,6 +1,5 @@
 package model.core;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -51,10 +50,10 @@ public class Environment implements Observable {
      *  For the Agent at (0, 0) if target is set to "Agent" the result is [(1, 1)].
      * @param posX x coordinate
      * @param posY y coordinate
-     * @param target type of Object
+     * @param target getClass().getName()
      * @return arraylist with an array of the position (x, y) for each solution
      */
-    public ArrayList<int[]> search(int posX, int posY, Type target) {
+    public ArrayList<int[]> search(int posX, int posY, String target) {
         
         if (this.grid.length > 1 | this.grid[0].length > 1) {            
 
@@ -76,7 +75,8 @@ public class Environment implements Observable {
                                 if ((target == null) & (this.grid[x + posX][y + posY] == null)) {
                                     saveIt = true;
                                 } else if ((this.grid[x + posX][y + posY] != null)) {
-                                    if (this.grid[x + posX][y + posY].getClass().equals(target)) {
+                                    System.out.println(this.grid[x + posX][y + posY].getClass().getName());
+                                    if (this.grid[x + posX][y + posY].getClass().getName() == target) {
                                         saveIt = true;
                                     } 
                                 }
