@@ -5,15 +5,26 @@ import model.core.Environment;
 
 public class People extends Agent {
 
+	/**
+	 * is the satisfaction for agent
+	 */
     public float satisfaction;
-    int nbVoisinTotal ;//remettre a 0 aprés un tour
-    int nbVoisinMemeType ;//remettre a 0 aprés un tour
-    int nbVoisinDifferentType ;//remettre a 0 aprés un tour
-
     /**
-     *
+     * the total
      */
-    public int type;// 0 ou 1 pour chaque type
+    int nbVoisinTotal ;
+    /**
+     * the number of neighboor with the same Type
+     */
+    int nbVoisinMemeType ;
+    /**
+     * the number of neighboor with different Type
+     */
+    int nbVoisinDifferentType ;
+    /**
+     * for know the type
+     */
+    public int type;
 
     public People(int posX, int posY, Environment environment, int type) {
         super(posX, posY, environment);
@@ -34,6 +45,10 @@ public class People extends Agent {
      * to update the value of satisfaction
      */
     public void calculateSatisfaction() {
+    	// on remet a 0 pour ne pas fausser les calculs
+    	nbVoisinTotal = 0;
+         nbVoisinMemeType = 0;
+        nbVoisinDifferentType = 0;
         int posX = this.getPosX();
         int posY = this.getPosY();
         if (posX == 0) {
@@ -315,7 +330,7 @@ public class People extends Agent {
         if (nbVoisinTotal == 0) {
             return 0;
         } else {
-            return (nbVoisinMemeType + nbVoisinDifferentType) / nbVoisinTotal;
+            return nbVoisinMemeType / nbVoisinTotal;
         }
 
     }
@@ -329,8 +344,6 @@ public class People extends Agent {
             this.nbVoisinTotal++;
             if (agentVoisin.type == this.type) {
                 this.nbVoisinMemeType++;
-            } else {
-                this.nbVoisinDifferentType++;
             }
         }
     }
