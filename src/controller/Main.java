@@ -10,12 +10,16 @@ public class Main {
 
     public static void main(String[] args) {
         
+        // EXO POPULATION
         Environment city = new Environment(20);
+        // ==> faire appel a une factory pour les agents
+        
 
-
+        //EXO WATER
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                    
                     // initiate model
                     //WaterEnvironment water = new WaterEnvironment(60, 450, 250);
                     WaterEnvironment water = new WaterEnvironment(5, 2, 2);

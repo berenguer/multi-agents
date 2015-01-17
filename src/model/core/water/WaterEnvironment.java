@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import view.Observer;
+import model.core.Agent;
 import model.core.Environment;
 import model.core.NumberOfAgentsExceedSizeException;
 
@@ -71,6 +72,7 @@ public class WaterEnvironment extends Environment {
     /**
      * Play one iteration/turn of the system.
      */
+    @Override
     public void doIt() {
         // order of agents in the turn is random
         Collections.shuffle(this.agents);

@@ -1,6 +1,7 @@
 package model.core.population;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import model.core.Agent;
 import model.core.Environment;
@@ -37,7 +38,15 @@ public class PeopleBerenguer extends Agent {
     }
     
     public void move() {
-        // to do
+        // selected a random free position around the box
+        Random random = new Random();
+        int[] nextPosition = this.environment.findEmptyPosition();
+        // remove this from the grid
+        this.environment.grid[this.posX][this.posY] = null;
+        this.posX = nextPosition[0];
+        this.posY = nextPosition[1];
+        // update the grid with the new position
+        this.environment.grid[this.posX][this.posY] = this;
     }
 
     public int getSatisfaction() {

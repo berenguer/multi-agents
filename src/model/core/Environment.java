@@ -25,6 +25,22 @@ public class Environment implements Observable {
     }
     
     /**
+     * Play one iteration/turn of the system.
+     */
+    public void doIt() {
+        // order of agents in the turn is random
+        Collections.shuffle(this.agents);
+
+        for (int i = 0; i < this.agents.size(); i++) {
+            //System.out.println("Agent at "+String.valueOf(this.agents.get(i).getPosX()+1) + " : " + String.valueOf(this.agents.get(i).getPosY()+1));
+            this.agents.get(i).action();
+            
+        }
+        notifyObserver();
+        updateAgentsList();
+    }
+    
+    /**
      * Search position of occurences of the target class, when located around the box at posX, posY.
      * Example, with the following grid
      * ---------------------
@@ -106,6 +122,11 @@ public class Environment implements Observable {
             }
         }
         return null;
+    }
+    
+    public void addAgent(Agent agent) {
+        this.grid[agent.getPosX()][agent.getPosY()] = agent;
+        this.agents.add(agent);
     }
     
     public void removeAgent(int posX, int posY) {
