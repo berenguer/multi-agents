@@ -6,9 +6,12 @@ import model.core.Environment;
 public class People extends Agent {
 
     public float satisfaction;
+    int nbVoisinTotal ;//remettre a 0 aprés un tour
+    int nbVoisinMemeType ;//remettre a 0 aprés un tour
+    int nbVoisinDifferentType ;//remettre a 0 aprés un tour
 
     /**
-     * 
+     *
      */
     public int type;// 0 ou 1 pour chaque type
 
@@ -17,11 +20,14 @@ public class People extends Agent {
         // just to initate
         this.satisfaction = 0;
         this.type = type;
+        nbVoisinTotal = 0;
+         nbVoisinMemeType = 0;
+        nbVoisinDifferentType = 0;
     }
 
     @Override
 	public void action() {
-		// 
+		//
 	}
 
     /**
@@ -33,13 +39,13 @@ public class People extends Agent {
         if (posX == 0) {
             if (posY == 0) { // x and y =0;
                 satisfaction = getSatisfactionForPosx0PosY0();
-
             } else {
                 if (posY == environment.grid.length) {
-                    // x=0 , y=max
-
+                	//x=0 y = Max
+                    satisfaction=getSatisfactionForPosx0PosYMax();
                 }
-                // only x=0 y = standard
+                //x=0;Y=Lambda
+               satisfaction= getSatisfactionForPosx0PosYLambda();
             }
 
         } else {
@@ -48,11 +54,13 @@ public class People extends Agent {
 
                 if (posY == environment.grid.length) {
                     // x et y = max
+                	satisfaction=getSatisfactionForPosxMaxPosYmax();
                 } else {
 
                     if (posY == 0) { // x = max and y =0;
-
+                    	satisfaction=getSatisfactionForPosxMaxPosY0();
                     } else {
+                    	satisfaction=getSatisfactionForPosxMaxPosYLambda();
                         // x = max y standard
                     }
 
@@ -60,9 +68,11 @@ public class People extends Agent {
 
             } else {
                 if (posY == environment.grid.length) {
+                	satisfaction=getSatisfactionForPosxLambdaPosYMax();
                     // x standard y = max
                 } else {
                     // x and y standard
+                	satisfaction=getSatisfactionForPosxLambdaPosYLambda();
                 }
 
             }
@@ -73,104 +83,235 @@ public class People extends Agent {
 
     /**
      * calculate for posX=0 posY=0
-     * 
+     *
      * @return the satisfaction for this guy
      */
     public float getSatisfactionForPosx0PosY0() {
-        int nbVoisinTotal = 0;
-        int nbVoisinMemeType = 0;
-        int nbVoisinDifferentType = 0;
-        People agentVoisin;
-        // voisin de droite
-        if (this.environment.grid[1][0] != null) {
-            nbVoisinTotal++;
-            agentVoisin = (People) this.environment.grid[1][0];
-            if (agentVoisin.type == this.type) {
-                nbVoisinMemeType++;
-            } else {
-                nbVoisinDifferentType++;
-            }
-        }
-        // voisin du bas
-        if (this.environment.grid[0][1] != null) {
-            nbVoisinTotal++;
-            agentVoisin = (People) this.environment.grid[0][1];
-            if (agentVoisin.type == this.type) {
-                nbVoisinMemeType++;
-            } else {
-                nbVoisinDifferentType++;
-            }
-        }
-        // voisin diagonal bas droite
-        if (this.environment.grid[1][1] != null) {
-            nbVoisinTotal++;
-            agentVoisin = (People) this.environment.grid[1][1];
-            if (agentVoisin.type == this.type) {
-                nbVoisinMemeType++;
-            } else {
-                nbVoisinDifferentType++;
-            }
-        }
 
-        return satisfactionForOneGuy(nbVoisinTotal, nbVoisinMemeType,
-                nbVoisinDifferentType);
+
+        // voisin de droite
+        MajValueAgent(getVoisinDroite());
+        // voisin du bas
+        MajValueAgent(getVoisinBas());
+        // voisin diagonal bas droite
+        MajValueAgent(getVoisinBasDroite());
+
+        return satisfactionForOneGuy();
     }
 
     /**
      * calculate for posX=0 posY=max
-     * 
+     *
      * @return the satisfaction for this guy
      */
     public float getSatisfactionForPosx0PosYMax() {
-        int nbVoisinTotal = 0;
-        int nbVoisinMemeType = 0;
-        int nbVoisinDifferentType = 0;
-        People agentVoisin;
         // voisin de droite
-        if (this.environment.grid[1][this.environment.grid.length] != null) {
-            nbVoisinTotal++;
-            agentVoisin = (People) this.environment.grid[1][this.environment.grid.length];
-            if (agentVoisin.type == this.type) {
-                nbVoisinMemeType++;
-            } else {
-                nbVoisinDifferentType++;
-            }
-        }
+        MajValueAgent(getVoisinDroite());
         // voisin du haut
-        if (this.environment.grid[0][this.environment.grid.length - 1] != null) {
-            nbVoisinTotal++;
-            agentVoisin = (People) this.environment.grid[0][this.environment.grid.length - 1];
-            if (agentVoisin.type == this.type) {
-                nbVoisinMemeType++;
-            } else {
-                nbVoisinDifferentType++;
-            }
-        }
+        MajValueAgent(getVoisinHaut());
         // voisin diagonal haut droit
-        if (this.environment.grid[1][this.environment.grid.length - 1] != null) {
-            nbVoisinTotal++;
-            agentVoisin = (People) this.environment.grid[1][this.environment.grid.length - 1];
-            if (agentVoisin.type == this.type) {
-                nbVoisinMemeType++;
-            } else {
-                nbVoisinDifferentType++;
-            }
-        }
+        MajValueAgent(getVoisinHautDroite());
+        return satisfactionForOneGuy();
+    }
 
-        return satisfactionForOneGuy(nbVoisinTotal, nbVoisinMemeType,
-                nbVoisinDifferentType);
+    /**
+     * calculate satisfaction for x =0 and y lambda
+     * @return
+     */
+    public float getSatisfactionForPosx0PosYLambda(){
+         // voisin de droite
+         MajValueAgent(getVoisinDroite());
+         // voisin du bas
+         MajValueAgent(getVoisinBas());
+         // voisin diagonal bas droite
+         MajValueAgent(getVoisinBasDroite());
+         // voisin du haut
+         MajValueAgent(getVoisinHaut());
+         // voisin diagonal haut droit
+         MajValueAgent(getVoisinHautDroite());
+         return satisfactionForOneGuy();
+    }
+
+    /**
+     * calculate for posX=max posY=max
+     *
+     * @return the satisfaction for this guy
+     */
+    public float getSatisfactionForPosxMaxPosYmax()
+    {
+        // voisin du haut
+    	 MajValueAgent(getVoisinHaut());
+        //voisinGauche
+        MajValueAgent(getVoisinGauche());
+        //voisin hautGauche
+        MajValueAgent(getVoisinHautGauche());
+        return satisfactionForOneGuy();
+    }
+
+    /**
+     * calculate for posX=max posY=0
+     *
+     * @return the satisfaction for this guy
+     */
+    public float getSatisfactionForPosxMaxPosY0()
+    {
+        //voisinGauche
+        MajValueAgent(getVoisinGauche());
+        //voisin BasGauche
+        MajValueAgent(getVoisinBasGauche());
+        //voisinBas
+        MajValueAgent(getVoisinBas());
+        return satisfactionForOneGuy();
+    }
+
+
+    /**
+     * calculate for posX=max posY=Lambda
+     *
+     * @return the satisfaction for this guy
+     */
+    public float getSatisfactionForPosxMaxPosYLambda()
+    {
+    	 //voisinGauche
+        MajValueAgent(getVoisinGauche());
+        //voisin BasGauche
+        MajValueAgent(getVoisinBasGauche());
+        //voisinBas
+        MajValueAgent(getVoisinBas());
+        // voisin diagonal haut gauche
+        MajValueAgent(getVoisinHautGauche());
+        // voisin du haut
+        MajValueAgent(getVoisinHaut());
+
+        return satisfactionForOneGuy();
+    }
+
+    /**
+     * calculate for posX=Lambda posY=Max
+     *
+     * @return the satisfaction for this guy
+     */
+    public float getSatisfactionForPosxLambdaPosYMax()
+    {
+    	 //voisinGauche
+        MajValueAgent(getVoisinGauche());
+        // voisin diagonal haut gauche
+        MajValueAgent(getVoisinHautGauche());
+        // voisin du haut
+        MajValueAgent(getVoisinHaut());
+        // voisin de droite
+        MajValueAgent(getVoisinDroite());
+        // voisin diagonal bas droite
+        MajValueAgent(getVoisinBasDroite());
+
+        return satisfactionForOneGuy();
+    }
+
+    /**
+     * calculate for posX=lambda posY=lambda
+     *
+     * @return the satisfaction for this guy
+     */
+    public float getSatisfactionForPosxLambdaPosYLambda()
+    {
+    	 //voisinGauche
+        MajValueAgent(getVoisinGauche());
+        //voisin BasGauche
+        MajValueAgent(getVoisinBasGauche());
+        //voisinBas
+        MajValueAgent(getVoisinBas());
+        // voisin de droite
+        MajValueAgent(getVoisinDroite());
+        // voisin diagonal bas droite
+        MajValueAgent(getVoisinBasDroite());
+        // voisin du haut
+        MajValueAgent(getVoisinHaut());
+        // voisin diagonal haut droit
+        MajValueAgent(getVoisinHautDroite());
+     // voisin diagonal haut gauche
+        MajValueAgent(getVoisinHautGauche());
+
+        return satisfactionForOneGuy();
+    }
+
+
+    /**
+     * Renvoie le voisin du haut
+     * @return null si aucun voisin , sinon le voisin
+     */
+    public People getVoisinHaut()
+    {
+    	return (People) this.environment.grid[posX][posY- 1];
+    }
+    /**
+     * retourne le voisin de droite
+     * @return null si aucun voisin , sinon le voisin
+     */
+    public People getVoisinDroite()
+    {
+    	return (People) this.environment.grid[posX+1][posY];
+    }
+    /**
+     * renvoie le voisin en haut a droite
+     * @return null si aucun voisin , sinon le voisin
+     */
+    public People getVoisinHautDroite()
+    {
+    	return (People) this.environment.grid[posX+1][posY-1];
+    }
+    /**
+     * renvoie le voisin en bas a droite
+     * @return null si aucun voisin , sinon le voisin
+     */
+    public People getVoisinBasDroite()
+    {
+    	return (People) this.environment.grid[posX+1][posY+1];
+    }
+    /**
+     * renvoie le voisin du bas
+     * @return null si aucun voisin , sinon le voisin
+     */
+    public People getVoisinBas()
+    {
+    	return (People) this.environment.grid[posX][posY+1];
+    }
+
+    /**
+     * renvoie le voisin en bas a gauche
+     * @return
+     */
+    public People getVoisinBasGauche()
+    {
+    	return (People) this.environment.grid[posX-1][posY+1];
+    }
+
+    /**
+     * renvoie le voisin s a gauche
+     * @return
+     */
+    public People getVoisinGauche()
+    {
+    	return (People) this.environment.grid[posX-1][posY];
+    }
+
+    /**
+     * renvoie le voisin en haut a gauche
+     * @return
+     */
+    public People getVoisinHautGauche()
+    {
+    	return (People) this.environment.grid[posX-1][posY-1];
     }
 
     /**
      * Calcul la satisfaction pour un type
-     * 
+     *
      * @param nbVoisinTotal
      * @param nbVoisinMemeType
      * @param nbVoisinDifferentType
      * @return satisfaction for one guy
      */
-    public float satisfactionForOneGuy(int nbVoisinTotal, int nbVoisinMemeType,
-            int nbVoisinDifferentType) {
+    public float satisfactionForOneGuy() {
         if (nbVoisinTotal == 0) {
             return 0;
         } else {
@@ -178,5 +319,21 @@ public class People extends Agent {
         }
 
     }
+    /**
+     * Change nbVoisinTotal nbVoisinMemeType, nbVoisinDifferentType with using agentVoisin
+     * @param agentVoisin
+     */
+    public void MajValueAgent(People agentVoisin)
+    {
+        if (agentVoisin!= null) {
+            this.nbVoisinTotal++;
+            if (agentVoisin.type == this.type) {
+                this.nbVoisinMemeType++;
+            } else {
+                this.nbVoisinDifferentType++;
+            }
+        }
+    }
+
 
 }
