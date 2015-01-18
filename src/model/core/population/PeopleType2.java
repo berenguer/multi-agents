@@ -2,9 +2,9 @@ package model.core.population;
 
 import model.core.Environment;
 
-public class PeopleBerenguer1 extends PeopleBerenguer {
+public class PeopleType2 extends People {
 
-    public PeopleBerenguer1(int posX, int posY, Environment environment,
+    public PeopleType2(int posX, int posY, Environment environment,
             int minSatisfaction) {
         super(posX, posY, environment, minSatisfaction);
     }

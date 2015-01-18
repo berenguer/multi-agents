@@ -4,10 +4,10 @@ import java.awt.EventQueue;
 
 import view.MainFrame;
 import model.core.Environment;
+import model.core.population.PeopleChaste;
 import model.core.population.People;
-import model.core.population.PeopleBerenguer;
-import model.core.population.PeopleBerenguer1;
-import model.core.population.PeopleBerenguer2;
+import model.core.population.PeopleType1;
+import model.core.population.PeopleType2;
 import model.core.water.WaterEnvironment;
 
 public class Main {
@@ -17,9 +17,9 @@ public class Main {
         // EXO POPULATION
         Environment city = new Environment(4);
         
-        PeopleBerenguer people1 = new PeopleBerenguer1(0,  0, city, 4);
-        PeopleBerenguer people2 = new PeopleBerenguer2(0,  1, city, 4);
-        PeopleBerenguer people3 = new PeopleBerenguer1(1,  1, city, 4);
+        People people1 = new PeopleType1(0,  0, city, 1);
+        People people2 = new PeopleType2(0,  1, city, 1);
+        People people3 = new PeopleType1(1,  1, city, 1);
         city.grid[0][0] = people1;
         city.grid[0][1] = people2;
         city.grid[1][1] = people3;
@@ -27,6 +27,12 @@ public class Main {
         people1.action();
         people2.action();
         people3.action();
+        System.out.println(city.toString());
+        people1.action();
+        people2.action();
+        people3.action();
+        System.out.println(city.toString());
+        
         // ==> faire appel a une factory pour les agents
         
         /*
