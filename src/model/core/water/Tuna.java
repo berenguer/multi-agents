@@ -10,7 +10,8 @@ public class Tuna extends Fish {
 
     @Override
     public void action() {
-        this.neighborPositions = environment.search(this.posX, this.posY, null);
+        this.neighborPositions = environment.search(this.posX, this.posY, this.environment.getGrid(),
+                null);
         if (this.neighborPositions.size() > 0) {
             if (this.birthDecount <= 0) {
                 birth();

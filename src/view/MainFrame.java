@@ -9,14 +9,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import view.Observer;
 import model.core.Agent;
-import model.core.water.WaterEnvironment;
+import model.core.Environment;
 
 public class MainFrame extends JFrame implements Observer {
 
     private static final long serialVersionUID = 1L;
 
-    public WaterEnvironment environnement;
+    public Environment environnement;
     
     public Agent[][] grid;
     
@@ -26,7 +27,7 @@ public class MainFrame extends JFrame implements Observer {
     
     public JButton nextButton;
 
-    public MainFrame(WaterEnvironment environnement) {       
+    public MainFrame(Environment environnement) {       
         // private variables
         this.environnement = environnement;
         setTitle("Multi-agents");
