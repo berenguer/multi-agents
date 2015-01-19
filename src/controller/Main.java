@@ -1,11 +1,10 @@
 package controller;
 
-import java.awt.EventQueue;
-
+import sun.org.mozilla.javascript.xml.XMLLib.Factory;
 import view.MainFrame;
+import model.EnvironmentFactory;
 import model.core.Agent;
 import model.core.Environment;
-import model.core.population.PeopleChaste;
 import model.core.population.People;
 import model.core.population.PeopleType1;
 import model.core.population.PeopleType2;
@@ -15,22 +14,10 @@ import model.core.water.WaterEnvironment;
 public class Main {
 
     public static void main(String[] args) {
+
         // -------------- tp 2 population ----------------
-        Environment city = new Environment(6, People.class);
-        
-        People people1 = new PeopleType1(0, 0, city, 1);
-        People people2 = new PeopleType1(0, 1, city, 1);
-        People people3 = new PeopleType1(2, 2, city, 1);
-        People people4 = new PeopleType2(0, 3, city, 1);
-        People people5 = new PeopleType2(0, 4, city, 1);
-        People people6 = new PeopleType2(2, 5, city, 1);
-        city.addAgent(people1);
-        city.addAgent(people2);
-        city.addAgent(people3);
-        city.addAgent(people4);
-        city.addAgent(people5);
-        city.addAgent(people6);
-        
+        Environment city = EnvironmentFactory.createAndInitializeCity(6, 3, 3, 1);
+
         // initiate view
         MainFrame view = new MainFrame(city);
         // attach view as observer of the model
@@ -38,7 +25,7 @@ public class Main {
         view.setVisible(true);
         
         float generalSatisfaction = 0;
-        for (Agent a : city.agents) {
+        for (Agent a : city.getAgents()) {
             System.out.println(a.getClass().getName());
             People p = (People) city.grid[a.getPosX()][a.posY];
             generalSatisfaction = generalSatisfaction + p.getSatisfaction();
@@ -48,6 +35,15 @@ public class Main {
         System.out.println("GeneralSatisfaction : "+generalSatisfaction);
 
         
+
+        /*
+        WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(10, 8, 8, 1, 3, 3);
+        MainFrame view = new MainFrame(water);
+        // attach view as observer of the model
+        water.attach(view);
+        view.setVisible(true);
+        */
+
         /*
         // ---------------- tp 1 fish ------------------
         EventQueue.invokeLater(new Runnable() {

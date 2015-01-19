@@ -17,7 +17,7 @@ public class Environment implements Observable {
     public ArrayList<Observer> observers;
 
     public ArrayList<Agent> agents;
-    
+
     public Type agentSupertype;
     
     public TimerTask runTimerTask;
@@ -60,6 +60,7 @@ public class Environment implements Observable {
         }
         notifyObserver();
         updateAgentsList();
+        /*
         float generalSatisfaction = 0;
         for (Agent a : this.agents) {
             System.out.println(a.getClass().getName());
@@ -70,6 +71,7 @@ public class Environment implements Observable {
         System.out.println(this.agents.size()+" !!!!!!!!!");
         generalSatisfaction = generalSatisfaction / this.agents.size();
         System.out.println("GeneralSatisfaction : "+generalSatisfaction);
+        */
     }
 
     /**
@@ -197,6 +199,18 @@ public class Environment implements Observable {
 
     public Agent[][] getGrid() {
         return this.grid;
+    }
+    
+    public void setGrid(Agent[][] grid) {
+        this.grid = grid;
+    }
+    
+    public ArrayList<Agent> getAgents() {
+        return agents;
+    }
+
+    public void setAgents(ArrayList<Agent> agents) {
+        this.agents = agents;
     }
 
     /**

@@ -3,10 +3,9 @@ package model.core.water;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import view.Observer;
+import model.core.Agent;
 import model.core.Environment;
 
 public class WaterEnvironment extends Environment {
@@ -18,8 +17,6 @@ public class WaterEnvironment extends Environment {
     public int nbShark;
 
     public int tour;
-
-    public ArrayList<Fish> agents;
 
     public ArrayList<Observer> observers;
 
@@ -37,7 +34,7 @@ public class WaterEnvironment extends Environment {
         this.tour = 0;
         this.averageFishAge = 0;
         this.averageSharkAge = 0;
-        this.agents = new ArrayList<Fish>(nbFish + nbShark);
+        agents = new ArrayList<Agent>(nbFish + nbShark);
     }
 
     /**
@@ -81,8 +78,6 @@ public class WaterEnvironment extends Environment {
          */
     }
 
-    
-
     @Override
     public void updateAgentsList() {
         // update agents collections (births, dead)
@@ -113,39 +108,6 @@ public class WaterEnvironment extends Environment {
         }
         if (this.nbShark != 0) {
             this.averageSharkAge = this.averageSharkAge / this.nbShark;
-        }
-    }
-
-    public void initiateGrid() {
-        int nbFish_count = nbFish;
-        int nbShark_count = nbShark;
-
-        // place agents into the grid
-        while ((nbFish_count | nbShark_count) > 0) {
-            // random = 0 place a fish or random = 1 place a shark
-            int fishOrShark = (int) Math.round(Math.random() * (1));
-
-            Fish agent;
-            int[] availablePosition = findEmptyPosition();
-            int posX = availablePosition[0];
-            int posY = availablePosition[1];
-
-            // create a fish, put it the grid, and referenced it in the list of
-            // agents
-            if ((fishOrShark == 0) && (nbFish_count > 0)) {
-                agent = new Tuna(posX, posY, 1, this);
-                this.agents.add(agent);
-                this.grid[posX][posY] = agent;
-                nbFish_count--;
-            }
-            // create a shark, put it in the grid, and referenced it in the list
-            // of agents
-            else if ((fishOrShark == 1) && (nbShark_count > 0)) {
-                agent = new Shark(posX, posY, 3, 3, this);
-                this.agents.add(agent);
-                this.grid[posX][posY] = agent;
-                nbShark_count--;
-            }
         }
     }
 
