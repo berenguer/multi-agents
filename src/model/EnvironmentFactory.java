@@ -12,7 +12,7 @@ import model.core.water.WaterEnvironment;
 public class EnvironmentFactory {
 
     // positions are random
-    public static Environment createAndInitializeCity(int size, int totalPeople1, int totalPeople2, int minSatisfaction) {
+    public static Environment createAndInitializeCity(int size, int totalPeople1, int totalPeople2, float minSatisfaction) {
             Environment city = new Environment(size, People.class);
             int people1_count = totalPeople1;
             int people2_count = totalPeople2;
@@ -68,7 +68,6 @@ public class EnvironmentFactory {
                 agent = new Tuna(posX, posY, 1, water);
                 water.addAgent(agent);
                 totalTunas_count--;
-                System.out.println(water.getAgents().size());
             }
             // create a shark, put it in the grid, and referenced it in the list
             // of agents
@@ -77,9 +76,7 @@ public class EnvironmentFactory {
                 water.addAgent(agent);
                 totalSharks_count--;
             }
-            System.out.println(water.getAgents().size());
         }
-        System.out.println(water.getAgents().size());
         return water;
     }
 

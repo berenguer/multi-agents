@@ -7,14 +7,14 @@ import model.core.Environment;
 
 public class People extends Agent {
     
-    public int minSatisfaction;
+    public float minSatisfaction;
     
     /**
      * How many neighbors share the same type around me.
      */
-    public int satisfaction;
+    public float satisfaction;
 
-    public People(int posX, int posY, Environment environment, int minSatisfaction) {
+    public People(int posX, int posY, Environment environment, float minSatisfaction) {
         super(posX, posY, environment);
         this.minSatisfaction = minSatisfaction;
         this.satisfaction = this.environment.search(this.posX, this.posY, this.getEnvironment().getGrid(),
@@ -25,6 +25,14 @@ public class People extends Agent {
     public void action() {
         this.satisfaction = this.environment.search(this.posX, this.posY, this.getEnvironment().getGrid(),
                 this.getClass().getName()).size();
+        int countNeighbors = this.environment.searchType(this.posX, this.posY, this.getEnvironment().getGrid(),
+                this.getClass().getSuperclass()).size();
+        if (countNeighbors != 0) {
+            this.satisfaction = this.satisfaction / countNeighbors;
+        } else {
+            this.satisfaction = 0;
+        }
+        
         // satisfaction egals size of neighbors with the same class Name around my box
         if (this.satisfaction < this.minSatisfaction) {
             move(); // change position if minimal satisfactio is not reached
@@ -44,8 +52,8 @@ public class People extends Agent {
         }
     }
     
-    public int getSatisfaction() {
-        return satisfaction;
+    public float getSatisfaction() {
+        return this.satisfaction;
     }
 
     public void setSatisfaction(int satisfaction) {

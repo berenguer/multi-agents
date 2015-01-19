@@ -5,7 +5,7 @@ import model.core.Environment;
 public class PeopleType1 extends People {
 
     public PeopleType1(int posX, int posY, Environment environment,
-            int minSatisfaction) {
+            float minSatisfaction) {
         super(posX, posY, environment, minSatisfaction);
     }
     

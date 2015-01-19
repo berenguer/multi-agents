@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.Main;
 import view.Observer;
 import model.core.Agent;
 import model.core.Environment;
@@ -42,15 +43,17 @@ public class MainFrame extends JFrame implements Observer {
         this.gridPanel = new GridPanel(this.environnement.getGrid());
         c.gridx = 0;
         c.gridy = 1;
-        add(this.gridPanel, c);  
-        JButton runButton = new JButton("Run");
-        JButton nextButton = new JButton("Next");
+        add(this.gridPanel, c);
+        runButton = new JButton("Run");
+        nextButton = new JButton("Next");
 
         runButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainFrame.this.environnement.run();
+                MainFrame.this.runButton.setEnabled(false);
+                
             }
         });
         

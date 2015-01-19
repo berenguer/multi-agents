@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.core.Agent;
+import model.core.population.PeopleType1;
 import model.core.water.Shark;
 
 public class GridPanel extends JPanel {
@@ -34,9 +35,8 @@ public class GridPanel extends JPanel {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid.length; column++) {
                 JLabel jLabel = new JLabel();
-                //this.add(new JLabel("huu"));
                 if (grid[row][column] != null) {
-                    if (grid[row][column].getClass().equals(Shark.class)) {
+                    if ((grid[row][column].getClass().equals(Shark.class) | (grid[row][column].getClass().equals(PeopleType1.class)))) {
 
                         jLabel = new JLabel();
                         jLabel.setIcon(iconShark);
