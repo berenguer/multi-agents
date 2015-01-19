@@ -11,11 +11,15 @@ import model.core.water.Fish;
 import model.core.water.WaterEnvironment;
 
 public class Main {
+    
+    public static void playCity() {
+        
+    }
 
     public static void main(String[] args) {
         // -------------- tp 2 population ----------------
-        Environment city = EnvironmentFactory.createAndInitializeCity(50, 1000, 1000, 0.7f);
-        //Environment city = EnvironmentFactory.createAndInitializeCity(20, 20, 20, 2);
+        //Environment city = EnvironmentFactory.createAndInitializeCity(50, 1000, 1000, 0.7f);
+        Environment city = EnvironmentFactory.createAndInitializeCity(30, 20, 20, 0.6f);
 
         // initiate view
         MainFrame view = new MainFrame(city);
@@ -27,6 +31,7 @@ public class Main {
         /*
         // ---------------- tp 1 fish ------------------
         WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(10, 8, 8, 1, 3, 3);
+        //WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(40, 200, 200, 1, 3, 3);
         MainFrame view = new MainFrame(water);
         // attach view as observer of the model
         water.attach(view);
@@ -35,6 +40,5 @@ public class Main {
         System.out.println("Size of the grid : " + water.grid.length + " x " + water.grid.length);
         System.out.println(water.toString());
         */
-        
     }
 }

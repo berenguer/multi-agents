@@ -1,15 +1,19 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-import controller.Main;
 import view.Observer;
 import model.core.Agent;
 import model.core.Environment;
@@ -25,52 +29,36 @@ public class MainFrame extends JFrame implements Observer {
     public JPanel gridPanel;
     
     public JButton runButton;
-    
+    public JButton pauseButton;
     public JButton nextButton;
 
-    public MainFrame(Environment environnement) {       
-        // private variables
+    public MainFrame(Environment environnement) {
         this.environnement = environnement;
         setTitle("Multi-agents");
         setSize(300, 200);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         // set layout
         GridBagLayout gbLayout = new GridBagLayout();
         getContentPane().setLayout(gbLayout);
         GridBagConstraints c = new GridBagConstraints();
-
+        
+        // internal padding
+        c.ipadx = 0;
+        c.ipady = 0;
+        // --------------------- menu -----------------------
+        MenuPanel menu = new MenuPanel(this.environnement);
+        c.gridx = 0;
+        c.gridy = 0;
+        menu.setPreferredSize(new Dimension(320, 30));
+        this.add(menu, c);
+        
+        // --------------------- grid -----------------------
         this.gridPanel = new GridPanel(this.environnement.getGrid());
         c.gridx = 0;
         c.gridy = 1;
         add(this.gridPanel, c);
-        runButton = new JButton("Run");
-        nextButton = new JButton("Next");
-
-        runButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MainFrame.this.environnement.run();
-                MainFrame.this.runButton.setEnabled(false);
-                
-            }
-        });
-        
-        nextButton.addActionListener(new ActionListener() {
-                        
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MainFrame.this.environnement.doIt();
-            }
-        });
-        
-        c.gridx = 2;
-        c.gridy = 1;
-        this.add(runButton, c);
-        c.gridx = 1;
-        c.gridy = 1;
-        this.add(nextButton, c);
         
         // validate container and subcomponents
         validate();

@@ -1,10 +1,10 @@
 package model.core;
 
+import java.awt.event.ActionListener;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.swing.Timer;
 
 import model.core.population.People;
 import view.Observer;
@@ -18,10 +18,7 @@ public class Environment implements Observable {
     public ArrayList<Agent> agents;
 
     public Type agentSupertype;
-    
-    public TimerTask runTimerTask;
 
-    public Timer timer;
 
     public Environment(int size, Type agentSupertype) {
         super();
@@ -29,21 +26,15 @@ public class Environment implements Observable {
         this.agentSupertype = agentSupertype;
         this.observers = new ArrayList<Observer>();
         this.agents = new ArrayList<Agent>();
-        this.runTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                doIt();
-            }
-        };
-        this.timer = new Timer();
     }
 
     /**
      * Play the party.
      */
     public void run() {
-        Agent[][] previousGrid = this.grid;
-        this.timer.scheduleAtFixedRate(this.runTimerTask, 0, 1);
+        while (true) {
+            doIt();
+        }
     }
 
     /**
