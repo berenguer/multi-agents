@@ -59,7 +59,7 @@ Idem pour water :
 Les arguments correspondent à la taille de la grille, le nombre de thons, le nombre de requins, le nombre de tour avant que le thon accouche, le nombre de tour pour que le requin accouche, et le nombre de tour pour le requin décède.
 
 Code pour lancer une système multi-agent:
-
+```
 Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);
 //Environment city = EnvironmentFactory.createAndInitializeCity(30, 50, 50, 0.6f);
 
@@ -68,6 +68,7 @@ MainFrame view = new MainFrame(city);
 // attach view as observer of the model
 city.attach(view);
 view.setVisible(true);
+```
 
 ## Architecture
 ```
@@ -128,7 +129,7 @@ MainFrame implémente Observeur.
 Lors d'un itération de la partie via Envirronnement.doIt() alors l'Envirronnement prévient ses abonnées, ici la vue.
 La vue dispose dans JPanel menu avec bouton play, pause, next, et un slider permettant d'accéler (resp. ralentir) le système.
 
-L'initialisation du système se déroule dans le controleur (voir Configuration de la partie)
+L'initialisation du système se déroule dans le controleur (voir Configuration de la partie).
 
 ## Statistiques
 
