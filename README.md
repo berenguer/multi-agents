@@ -70,6 +70,7 @@ city.attach(view);
 view.setVisible(true);
 
 ## Architecture
+```
 ── images
 │   ├── blue-water-icon.png
 │   ├── fish-icon.png
@@ -109,7 +110,8 @@ view.setVisible(true);
     └── fish
         ├── moyenne-age_poissons_requins_100x100_2.csv
         ├── ... etc
-    
+```
+        
 ## Implémentation
 
 Les agents Fish (pour water) et People (pour city) heritent de Agent.java.
