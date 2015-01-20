@@ -40,7 +40,7 @@ public class Main {
                 view.setVisible(true);
                 System.out.println("Number of agents : " + water.agents.size());
                 System.out.println("Size of the grid : " + water.grid.length + " x " + water.grid.length);
-                System.out.println(water.toString());
+                //System.out.println(water.toString());
             } else if (args[0].equals("--city")) {
                 // -------------- tp 2 population ----------------
                 int size = 30;
