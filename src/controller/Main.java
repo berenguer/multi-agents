@@ -14,7 +14,6 @@ public class Main {
     public static void main(String[] args) {
         if (args.length >= 1) {
             // ---------------- tp 1 fish ------------------
-            System.out.println(args[0]);
             if (args[0].equals("--water")) {
                 int size = 40;
                 int nbType1 = 200;
