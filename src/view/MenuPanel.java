@@ -1,7 +1,6 @@
 package view;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import model.core.Environment;
 
@@ -21,12 +22,17 @@ public class MenuPanel extends JPanel {
     public JButton pauseButton;
     public JButton nextButton;
     
+    public JSlider slider;
+    
     public Timer timer;
+    public ActionListener taskPerformer;
 
     public MenuPanel(Environment environnement) {
         super();
         this.environnement = environnement;
-        setLayout(new GridLayout(1, 4));
+
+        GridBagLayout gbLayout = new GridBagLayout();
+        setLayout(gbLayout);
         
         // -------------------- Timer -----------------------
         int delay = 100; // milliseconds
@@ -49,6 +55,7 @@ public class MenuPanel extends JPanel {
                 MenuPanel.this.timer.stop();
             }
         });
+        
         add(pauseButton);
         
         // ---------------------- play ----------------------
@@ -77,7 +84,18 @@ public class MenuPanel extends JPanel {
         });
         add(nextButton);
 
-        JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 25);
+        slider = new JSlider(JSlider.HORIZONTAL, 0, 6, 2);
+        slider.setMinorTickSpacing(1);
+        slider.setMajorTickSpacing(6);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        slider.setLabelTable(slider.createStandardLabels(3));
+        slider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                MenuPanel.this.timer.setDelay(slider.getValue() * 100);
+                System.out.println("delais : "+MenuPanel.this.timer.getDelay());
+            }
+        });
         add(slider);
         
     }
