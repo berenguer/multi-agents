@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.Main;
 import model.core.Agent;
 import model.core.population.PeopleType1;
 import model.core.water.Shark;
@@ -25,9 +26,9 @@ public class GridPanel extends JPanel {
     
     public static JLabel water;
 
-    static ImageIcon iconShark = new ImageIcon("images/shark-icon.png");
-    static ImageIcon iconFish = new ImageIcon("images/fish-icon.png");
-    static ImageIcon iconWater = new ImageIcon("images/blue-water-icon.png");
+    static ImageIcon iconShark = new ImageIcon(Main.class.getResource("/img/shark-icon.png"));
+    static ImageIcon iconFish = new ImageIcon(Main.class.getResource("/img/fish-icon.png"));
+    static ImageIcon iconWater = new ImageIcon(Main.class.getResource("/img/blue-water-icon.png"));
 
     public GridPanel(Agent[][] grid) {
         this.labelsGrid = new JLabel[grid.length][grid.length];

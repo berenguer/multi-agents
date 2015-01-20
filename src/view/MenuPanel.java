@@ -12,6 +12,7 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import controller.Main;
 import model.core.Environment;
 
 public class MenuPanel extends JPanel {
@@ -50,7 +51,7 @@ public class MenuPanel extends JPanel {
         
         // ---------------------- pause ---------------------
         pauseButton = new JButton();
-        ImageIcon iconPause = new ImageIcon("images/pause.png");
+        ImageIcon iconPause = new ImageIcon(Main.class.getResource("/img/pause.png"));
         pauseButton.setIcon(iconPause);
         pauseButton.addActionListener(new ActionListener() {
             @Override
@@ -65,7 +66,7 @@ public class MenuPanel extends JPanel {
         
         // ---------------------- play ----------------------
         runButton = new JButton();
-        ImageIcon iconPlay = new ImageIcon("images/play.png");
+        ImageIcon iconPlay = new ImageIcon(Main.class.getResource("/img/play.png"));
         runButton.setIcon(iconPlay);
         runButton.addActionListener(new ActionListener() {
             @Override
@@ -79,7 +80,7 @@ public class MenuPanel extends JPanel {
 
         // ---------------------- next ----------------------
         nextButton = new JButton();
-        ImageIcon iconNext = new ImageIcon("images/next.png");
+        ImageIcon iconNext = new ImageIcon(Main.class.getResource("/img/next.png"));
         nextButton.setIcon(iconNext);
         nextButton.addActionListener(new ActionListener() {     
             @Override
