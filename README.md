@@ -29,7 +29,7 @@ En se déplaçant sur une case contenant un poisson, le poisson est mangé il di
 Tant qu'une satisfaction comprise entre 0 et 1 n'est pas satisfaite pour un agent, alors il se déplace aleatoirement dans la grille.
 La **satisfaction est calculée en prenant le nombre de voisins identique / par le nombre total de voisins sur les cases adjacentes**.
 
-## Exécution
+## Exécution via Eclipse
 
 Nécessite Java 1.7.
 
