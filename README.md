@@ -35,9 +35,9 @@ Dans la partie "Générale" -> **"Existing Projects into Workspace"**
 
 Ensuite il faut choisir la classe src.controller.Main comme classe principale.
 Pour lancer Water il faut mettre en argument:
---water
+* --water
 respectivement
---city
+* --city
 
 ### GUI
 
@@ -47,13 +47,18 @@ Le slider permet d'augmenter le delais avant l'appel à Environment.doIt() c.a.d
 
 ## Configuration de la partie
 
-Une factory permet de ici de créer soit l'envirronement, exemple:
-* Exemple : Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);
+Une factory permet de ici de créer soit l'envirronement :
+
+* *Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);*
+
 Les arguments correspondent à la taille de la grille, nombre d'agents de type 1, nombre d'agents de type 2, et la satisfaction minimale à satisfaire qui va de 0 à 1.
 
 Idem pour water :
-* WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(40, 200, 200, 1, 3, 3);
+* *WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(40, 200, 200, 1, 3, 3);*
+
 Les arguments correspondent à la taille de la grille, le nombre de thons, le nombre de requins, le nombre de tour avant que le thon accouche, le nombre de tour pour que le requin accouche, et le nombre de tour pour le requin décède.
+
+Code pour lancer une système multi-agent:
 
 Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);
 //Environment city = EnvironmentFactory.createAndInitializeCity(30, 50, 50, 0.6f);
@@ -63,12 +68,6 @@ MainFrame view = new MainFrame(city);
 // attach view as observer of the model
 city.attach(view);
 view.setVisible(true);
-
-## Modification des paramètres des Agents
-Dans Envirronnement.initiateGrid() modifier les valeurs de new Agent(..)
-Exemple :
-Fish(int posX, int posY, int birthClassDelay, int deathClassDelay, Environnement env)
-Shark(int posX, int posY, int birthClassDelay, int deathClassDelay, Environnement env)
 
 ## Architecture
 ── images
@@ -114,7 +113,8 @@ Shark(int posX, int posY, int birthClassDelay, int deathClassDelay, Environnemen
 ## Implémentation
 
 Les agents Fish (pour water) et People (pour city) heritent de Agent.java.
-controller.Main construit un Envirronnment avec une taille et des agents à construire/placer.
+
+EnvironmentFactory.java permet de créer/initialiser un environnement et ses agents en un seule appel.
 
 Le patron MVC est utilisé. Model sera l'Envirronnement et contient les agents.
 La vue sera MainFrame qui comporte un grille pour afficher le jeu (environnement, et agents).
@@ -122,7 +122,11 @@ La vue sera MainFrame qui comporte un grille pour afficher le jeu (environnement
 Le **patern Observeur/Observable** est utilisé. La vue est abonnée à l'Envirronnement.
 Envirronnement implémente Observable.
 MainFrame implémente Observeur.
+
 Lors d'un itération de la partie via Envirronnement.doIt() alors l'Envirronnement prévient ses abonnées, ici la vue.
+La vue dispose dans JPanel menu avec bouton play, pause, next, et un slider permettant d'accéler (resp. ralentir) le système.
+
+L'initialisation du système se déroule dans le controleur (voir Configuration de la partie)
 
 ## Statistiques
 
