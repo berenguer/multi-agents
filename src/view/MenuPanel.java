@@ -16,6 +16,11 @@ import model.core.Environment;
 
 public class MenuPanel extends JPanel {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5776134343830612784L;
+
     public Environment environnement;
     
     public JButton runButton;

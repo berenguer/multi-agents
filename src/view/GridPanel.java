@@ -12,7 +12,10 @@ import model.core.water.Shark;
 
 public class GridPanel extends JPanel {
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3827701605430382079L;
 
     public JLabel[][] labelsGrid;
     

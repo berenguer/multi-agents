@@ -1,7 +1,5 @@
 package model.core.population;
 
-import java.util.Random;
-
 import model.core.Agent;
 import model.core.Environment;
 

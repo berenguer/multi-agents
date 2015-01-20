@@ -1,10 +1,8 @@
 package model.core;
 
-import java.awt.event.ActionListener;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
-import javax.swing.Timer;
 
 import model.core.population.People;
 import view.Observer;
