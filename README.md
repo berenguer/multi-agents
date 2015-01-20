@@ -44,26 +44,27 @@ respectivement
 
 ### Exécution via JAR
 
-```
-java -jar multi-agents.jar --city
-```
 Vous pouvez également paramétrer avec les options :
 
 --city (int)size (int)type1 occurences (int)type2 occurences (float)min satisfaction
-
-Exemple :
-
+```
+java -jar multi-agents.jar --city
+```
 ```
 java -jar multi-agents.jar --city 20 90 90 0.7
-```
-
-```
-java -jar multi-agents.jar --water
 ```
 
 Vous pouvez également paramétrer avec les options :
 
 --water (int)size (int)type1 occurences (int)type2 occurences (int)Tuna birth delay (int)Shark birth delay (int)Shark death delay
+```
+java -jar multi-agents.jar --water
+```
+```
+java -jar multi-agents.jar --water 40 200 200 1 3 3
+```
+
+
 
 ## Configuration de la partie
 
