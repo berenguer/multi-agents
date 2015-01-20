@@ -13,11 +13,27 @@ public class Main {
 
     public static void main(String[] args) {
         if (args.length >= 1) {
+            // ---------------- tp 1 fish ------------------
             System.out.println(args[0]);
             if (args[0].equals("--water")) {
-                // ---------------- tp 1 fish ------------------
+                int size = 40;
+                int nbType1 = 200;
+                int nbType2 = 200;
+                int tunaBirth = 1;
+                int sharkBirth = 3;
+                int sharkDeath = 3;
+                if (args.length == 7) {
+                    size = Integer.parseInt(args[1]);
+                    nbType1 = Integer.parseInt(args[2]);
+                    nbType2 = Integer.parseInt(args[3]);
+                    tunaBirth = Integer.parseInt(args[4]);
+                    sharkBirth = Integer.parseInt(args[5]);
+                    sharkDeath = Integer.parseInt(args[5]);
+                }
                 //WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(10, 8, 8, 1, 3, 3);
-                WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(40, 200, 200, 1, 3, 3);
+                //WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(40, 200, 200, 1, 3, 3);
+                WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(size, nbType1, nbType2, tunaBirth,
+                        sharkBirth, sharkDeath);
                 MainFrame view = new MainFrame(water);
                 // attach view as observer of the model
                 water.attach(view);
@@ -27,9 +43,18 @@ public class Main {
                 System.out.println(water.toString());
             } else if (args[0].equals("--city")) {
                 // -------------- tp 2 population ----------------
-                Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);
-                //Environment city = EnvironmentFactory.createAndInitializeCity(30, 50, 50, 0.6f);
-
+                int size = 30;
+                int nbType1 = 140;
+                int nbType2 = 140;
+                float satisfaction = 0.6f;
+                if (args.length == 5) {
+                    size = Integer.parseInt(args[1]);
+                    nbType1 = Integer.parseInt(args[2]);
+                    nbType2 = Integer.parseInt(args[3]);
+                    satisfaction = Float.parseFloat(args[4]);
+                }
+                //Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);
+                Environment city = EnvironmentFactory.createAndInitializeCity(size, nbType1, nbType2, satisfaction);
                 // initiate view
                 MainFrame view = new MainFrame(city);
                 // attach view as observer of the model
@@ -39,7 +64,13 @@ public class Main {
         }
         
         else {
-            System.out.println("Select environment with argument :\n--water\nor\n--city");
+            System.out.println("Select environment with argument :\n"
+                    + "--water (int)size (int)type1 occurences (int)type2 occurences (int)Tuna birth delay "
+                    + "(int)Shark birth delay (int)Shark death delay\n"
+                    + "\texample: --water 40 200 200 1 3 3\n"
+                    + "\n"
+                    + "--city (int)size (int)type1 occurences (int)type2 occurences (float)min satisfaction\n"
+                    + "\texample: --city 20 90 90 0.7");
         }
     }
 }
