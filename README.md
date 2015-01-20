@@ -1,14 +1,16 @@
 # Système multi-agents
 
-M. CHASTE
-PP. BERENGUER
+Etudiants:
+* M. CHASTE
+* PP. BERENGUER
 
 M2 IAGL
 
 20-01-2015
 
 Université de Lille 1
-Enseignant : Philippe Mathieu - LIFL
+
+Encadré par Philippe Mathieu - LIFL
 
 ## Water : Des requins qui mangent des poissons
 
