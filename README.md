@@ -5,9 +5,10 @@ PP. BERENGUER
 
 M2 IAGL
 
-13-01-2015
+20-01-2015
 
 Université de Lille 1
+Enseignant : Philippe Mathieu - LIFL
 
 ## Water : Des requins qui mangent des poissons
 
