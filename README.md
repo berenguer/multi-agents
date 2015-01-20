@@ -42,12 +42,6 @@ Pour lancer Water il faut mettre en argument:
 respectivement
 * --city
 
-### GUI
-
-Lancer la partie de façon automatique en cliquant sur le bouton "Play".
-Le bouton "Next" permet de faire seulement une seule itération du jeu.
-Le slider permet d'augmenter le delais avant l'appel à Environment.doIt() c.a.d une itération d'action pour tous les agents.
-
 ## Configuration de la partie
 
 Une factory permet de ici de créer soit l'envirronement :
