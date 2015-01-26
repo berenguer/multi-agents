@@ -58,6 +58,10 @@ public class Main {
             
             else if (args[0].equals("--hunt")) {
                 System.out.println("hunt!!!");
+                if (args.length == 3) {
+                    nbType1 = Integer.parseInt(args[1]);
+                    nbType2 = Integer.parseInt(args[2]);          
+                }
                 HuntEnvironment env = EnvironmentFactory.createAndInitializeHunt(size, nbType1, nbType2);
                 // initiate view
                 MainFrame view = new MainFrame(env);

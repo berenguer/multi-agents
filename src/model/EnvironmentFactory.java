@@ -107,8 +107,11 @@ public class EnvironmentFactory {
             env.addAgent(hunter);
         }
         // add a prey
+        availablePosition = env.findEmptyPosition();
+        posX = availablePosition[0];
+        posY = availablePosition[1];
         Prey prey = new Prey(posX, posY, env);
-        env.addAgent(prey);
+        env.addPrey(prey);
         return env;
     }
 }
