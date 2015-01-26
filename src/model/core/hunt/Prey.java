@@ -1,8 +1,5 @@
 package model.core.hunt;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import model.core.Agent;
 import model.core.Environment;
 
@@ -74,9 +71,9 @@ public class Prey extends Agent {
                     nearestHunter = (Hunter) this.environment.getAgents().get(i);
                     maximumDistance = distance;
                 }
-                
             }
         }
         return nearestHunter;
     }
+    
 }
