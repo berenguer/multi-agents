@@ -1,7 +1,6 @@
 package model.core.hunt;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collections;
 
 import model.core.Environment;
@@ -51,8 +50,8 @@ public class HuntEnvironment extends Environment {
     
     public int[] shorterPathAt(int posX, int posY) {
         int [] path = new int[2];
-        path[0] = posX;
-        path[1] = posY;
+        path[0] = -666;
+        path[1] = -666;
         int[] values = new int[3];
         values[0] = -1;
         values[1] = 0;
@@ -67,7 +66,10 @@ public class HuntEnvironment extends Environment {
                         // omit the value exactly at posX, posY
                         if (!((x == 0) & (y == 0))) {
                             if (grid[x + posX][y + posY] == null) {
-                                if (this.distances[x + posX][y + posY] < this.distances[path[0]][path[1]]) {
+                                if (path[0] == (-666)) {
+                                    path[0] = x + posX;
+                                    path[1] = y + posY;
+                                } else if (this.distances[x + posX][y + posY] < this.distances[path[0]][path[1]]) {
                                     path[0] = x + posX;
                                     path[1] = y + posY;
                                 }
@@ -76,6 +78,10 @@ public class HuntEnvironment extends Environment {
                     }
                 } // for y
             } // for x
+        }
+        if (path[0] == (-666)) {
+            path[0] = posX;
+            path[1] = posY;
         }
         return path;
     }

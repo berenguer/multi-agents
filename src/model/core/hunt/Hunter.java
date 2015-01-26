@@ -1,10 +1,6 @@
 package model.core.hunt;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import model.core.Agent;
-import model.core.Environment;
 
 public class Hunter extends Agent {
     
@@ -22,19 +18,9 @@ public class Hunter extends Agent {
     
     public void move(int x, int y) {
         int[] nextMove = this.environment.shorterPathAt(x, y);
-        // if no shorter path and no prey available move around
-        if ((nextMove[0] == this.posX) & (nextMove[1] == this.posY)) {
-            ArrayList<int[]> preyNeighborhood = this.environment.search(this.posX, this.posY, this.environment.getGrid(),
-                    Prey.class.getName());
-            
-            if (preyNeighborhood.size() == 0) {
-                ArrayList<int[]> availablePositions = this.environment.search(this.posX, this.posY, this.environment.getGrid(),
-                        null);
-                Collections.shuffle(availablePositions);
-            }
-        }
+
         // assert that shorterPath is free, then move
-        else if (this.environment.getGrid()[nextMove[0]][nextMove[1]] == null) {
+        if (this.environment.getGrid()[nextMove[0]][nextMove[1]] == null) {
             // remove this from the grid
             this.environment.grid[this.posX][this.posY] = null;
             this.posX = nextMove[0];

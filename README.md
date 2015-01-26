@@ -29,6 +29,12 @@ En se déplaçant sur une case contenant un poisson, le poisson est mangé il di
 Tant qu'une satisfaction comprise entre 0 et 1 n'est pas satisfaite pour un agent, alors il se déplace aleatoirement dans la grille.
 La **satisfaction est calculée en prenant le nombre de voisins identique / par le nombre total de voisins sur les cases adjacentes**.
 
+## Hunting : Les agents se regroupent par type
+
+Les chasseurs se dirigent vers la proie. **L'algorithme Dijkstra permet de calculer toutes les distances dans la grille depuis la position de la proie**.
+A partir de cela chaque chasseur prend la main aléatoirement lors d'un tour de jeux. Le chasseur choisie la case de la grille qui lui ai adjacente et qui a la plus petite distance à la proie.
+Lorsque la case avec la plus petite distance
+
 ## Exécution via Eclipse
 
 Nécessite Java 1.7.
@@ -74,7 +80,7 @@ Une factory permet de ici de créer soit l'envirronement :
 
 Les arguments correspondent à la taille de la grille, nombre d'agents de type 1, nombre d'agents de type 2, et la satisfaction minimale à satisfaire qui va de 0 à 1.
 
-Idem pour water :
+Pour water :
 * *WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(40, 200, 200, 1, 3, 3);*
 
 Les arguments correspondent à la taille de la grille, le nombre de thons, le nombre de requins, le nombre de tour avant que le thon accouche, le nombre de tour pour que le requin accouche, et le nombre de tour pour le requin décède.
