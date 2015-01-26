@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
@@ -90,6 +91,7 @@ public class MenuPanel extends JPanel {
         });
         add(nextButton);
 
+        // ---------------------- slider ----------------------
         slider = new JSlider(JSlider.HORIZONTAL, 0, 6, 2);
         slider.setMinorTickSpacing(1);
         slider.setMajorTickSpacing(6);
@@ -103,6 +105,9 @@ public class MenuPanel extends JPanel {
             }
         });
         add(slider);
+        
+        JLabel sliderLabel = new JLabel("t(ms)");
+        add(sliderLabel);
         
     }
 
