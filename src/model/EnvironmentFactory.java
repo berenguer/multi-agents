@@ -1,6 +1,11 @@
 package model;
 
+import model.core.Agent;
 import model.core.Environment;
+import model.core.hunt.HuntEnvironment;
+import model.core.hunt.Hunter;
+import model.core.hunt.Prey;
+import model.core.hunt.Wall;
 import model.core.population.People;
 import model.core.population.PeopleType1;
 import model.core.population.PeopleType2;
@@ -79,5 +84,33 @@ public class EnvironmentFactory {
         }
         return water;
     }
-
+    
+    public static HuntEnvironment createAndInitializeHunt(int size, int totalHunter, int totalWall) {
+        HuntEnvironment env = new HuntEnvironment(size, Agent.class);
+        int[] availablePosition = env.findEmptyPosition();
+        int posX = availablePosition[0];
+        int posY = availablePosition[1];
+        // add wall
+        for (int i = 0; i < totalWall; i++) {
+            availablePosition = env.findEmptyPosition();
+            posX = availablePosition[0];
+            posY = availablePosition[1];
+            Wall wall = new Wall(posX, posY, env);
+            env.addAgent(wall);
+        }
+        // add hunters
+        for (int i = 0; i < totalHunter; i++) {
+            availablePosition = env.findEmptyPosition();
+            posX = availablePosition[0];
+            posY = availablePosition[1];
+            Hunter hunter = new Hunter(posX, posY, env);
+            env.addAgent(hunter);
+        }
+        // add a prey
+        Prey prey = new Prey(posX, posY, env);
+        env.addAgent(prey);
+        return env;
+    }
 }
+        
+        

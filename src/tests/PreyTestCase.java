@@ -1,7 +1,5 @@
 package tests;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
@@ -26,8 +24,6 @@ public class PreyTestCase extends TestCase {
 		env.addAgent(h3);
 		p=new Prey(3, 3, env);
 		env.addAgent(p);
-
-
 	}
 
 	@Test

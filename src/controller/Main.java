@@ -3,21 +3,19 @@ package controller;
 import view.MainFrame;
 import model.EnvironmentFactory;
 import model.core.Environment;
+import model.core.hunt.HuntEnvironment;
 import model.core.water.WaterEnvironment;
 
 public class Main {
-    
-    public static void playCity() {
-        
-    }
 
     public static void main(String[] args) {
+        int size = 30;
+        int nbType1 = 140;
+        int nbType2 = 140;
+        
         if (args.length >= 1) {
             // ---------------- tp 1 fish ------------------
             if (args[0].equals("--water")) {
-                int size = 40;
-                int nbType1 = 200;
-                int nbType2 = 200;
                 int tunaBirth = 1;
                 int sharkBirth = 3;
                 int sharkDeath = 3;
@@ -42,9 +40,6 @@ public class Main {
                 //System.out.println(water.toString());
             } else if (args[0].equals("--city")) {
                 // -------------- tp 2 population ----------------
-                int size = 30;
-                int nbType1 = 140;
-                int nbType2 = 140;
                 float satisfaction = 0.6f;
                 if (args.length == 5) {
                     size = Integer.parseInt(args[1]);
@@ -60,16 +55,25 @@ public class Main {
                 city.attach(view);
                 view.setVisible(true);
             }
-        }
-        
-        else {
-            System.out.println("Select environment with argument :\n"
-                    + "--water (int)size (int)type1 occurences (int)type2 occurences (int)Tuna birth delay "
-                    + "(int)Shark birth delay (int)Shark death delay\n"
-                    + "\texample: --water 40 200 200 1 3 3\n"
-                    + "\n"
-                    + "--city (int)size (int)type1 occurences (int)type2 occurences (float)min satisfaction\n"
-                    + "\texample: --city 20 90 90 0.7");
+            
+            else if (args[0].equals("--hunt")) {
+                System.out.println("hunt!!!");
+                HuntEnvironment env = EnvironmentFactory.createAndInitializeHunt(size, nbType1, nbType2);
+                // initiate view
+                MainFrame view = new MainFrame(env);
+                // attach view as observer of the model
+                env.attach(view);
+                view.setVisible(true);
+            }
+            else {
+                System.out.println("Select environment with argument :\n"
+                        + "--water (int)size (int)type1 occurences (int)type2 occurences (int)Tuna birth delay "
+                        + "(int)Shark birth delay (int)Shark death delay\n"
+                        + "\texample: --water 40 200 200 1 3 3\n"
+                        + "\n"
+                        + "--city (int)size (int)type1 occurences (int)type2 occurences (float)min satisfaction\n"
+                        + "\texample: --city 20 90 90 0.7");
+            }
         }
     }
 }
