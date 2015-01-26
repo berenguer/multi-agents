@@ -101,7 +101,6 @@ public class MenuPanel extends JPanel {
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 MenuPanel.this.timer.setDelay(slider.getValue() * 100);
-                System.out.println("delais : "+MenuPanel.this.timer.getDelay());
             }
         });
         add(slider);
