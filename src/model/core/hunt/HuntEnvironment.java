@@ -85,59 +85,6 @@ public class HuntEnvironment extends Environment {
         }
         return path;
     }
-
-    
-    /**
-     * Return all encircling positions available (i.e null in the grid).
-     * Each position in the results collection is an array itself with [coord x, coord y, 
-     * ---------------------
-     *  11  10  9   8   7   6
-     *  10  9   Me  7   6   5
-     *  9   8   7   6   5   4
-     *  --------------------
-     *  From the position "Me" the minimal distance is "6".
-     * @param posX my x coordinate
-     * @param posY my y coordinate
-     * @return coordinates [x, y] with the minimal distance.
-     */
-    // DEPRECATED
-    /*
-    public ArrayList<int[]> getDistancesAt(int posX, int posY) {
-        if (this.distances.length > 1 | this.distances[0].length > 1) {
-            ArrayList<int[]> distanceSets = new ArrayList<int[]>();
-            int[] availablePos = new int[3];
-            availablePos[0] = posX;
-            availablePos[1] = posY;
-            availablePos[2] = this.distances.length;
-            int[] values = new int[3];
-            values[0] = -1;
-            values[1] = 0;
-            values[2] = 1;
-            // x and y refer to a relative shift of posX, posY
-            for (int x : values) {
-                // check if the row at x + posX is inbound
-                if ((x + posX >= 0) & (x + posX < this.distances.length)) {
-                    for (int y : values) {
-                        // check if the column at y + posY is inbound
-                        if ((y + posY >= 0) & (y + posY < this.distances.length)) {
-                            // omit the value exactly at posX, posY
-                            if (!((x == 0) & (y == 0))) {
-                                if ((grid[x + posX][y + posY] == null)) {
-                                    availablePos[0] = x + posX;
-                                    availablePos[1] = y + posY;
-                                    availablePos[2] = this.distances[x + posX][y + posY];
-                                    distanceSets.add(availablePos);
-                                }
-                            }
-                        }
-                    } // for y
-                } // for x
-            }
-            return distanceSets;
-        }
-        return null;
-    }
-    */
     
     public Prey getPrey() {
         return prey;

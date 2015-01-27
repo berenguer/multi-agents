@@ -29,11 +29,11 @@ En se déplaçant sur une case contenant un poisson, le poisson est mangé il di
 Tant qu'une satisfaction comprise entre 0 et 1 n'est pas satisfaite pour un agent, alors il se déplace aleatoirement dans la grille.
 La **satisfaction est calculée en prenant le nombre de voisins identique / par le nombre total de voisins sur les cases adjacentes**.
 
-## Hunting : Les agents se regroupent par type
+## Hunting : Les chasseurs vont attrapper la proie en utilisant le plus court chemin
 
 Les chasseurs se dirigent vers la proie. **L'algorithme Dijkstra permet de calculer toutes les distances dans la grille depuis la position de la proie**.
-A partir de cela chaque chasseur prend la main aléatoirement lors d'un tour de jeux. Le chasseur choisie la case de la grille qui lui ai adjacente et qui a la plus petite distance à la proie.
-Lorsque la case avec la plus petite distance
+A partir de cela chaque chasseur prend la main aléatoirement lors d'un tour de jeux. Le chasseur choisie la case de la grille qui lui ai adjacente et qui a la plus petite distance avec la proie.
+Cette case de plus courte distance doit être libre : pas d'autre chasseur, et pas de mûr.
 
 ## Exécution via Eclipse
 
@@ -47,6 +47,7 @@ Pour lancer Water il faut mettre en argument:
 * --water
 respectivement
 * --city
+* --hunt
 
 ### Exécution via JAR
 
@@ -70,7 +71,15 @@ java -jar multi-agents.jar --water
 java -jar multi-agents.jar --water 40 200 200 1 3 3
 ```
 
+Vous pouvez également paramétrer avec les options :
 
+--hunt (int)size (int)total hunters (int)total mûrs
+```
+java -jar multi-agents.jar --hunt
+```
+```
+java -jar multi-agents.jar --hunt 40 100 50
+```
 
 ## Configuration de la partie
 
@@ -85,37 +94,33 @@ Pour water :
 
 Les arguments correspondent à la taille de la grille, le nombre de thons, le nombre de requins, le nombre de tour avant que le thon accouche, le nombre de tour pour que le requin accouche, et le nombre de tour pour le requin décède.
 
-Code pour lancer une système multi-agent:
-```
-Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);
-//Environment city = EnvironmentFactory.createAndInitializeCity(30, 50, 50, 0.6f);
-
-// initiate view
-MainFrame view = new MainFrame(city);
-// attach view as observer of the model
-city.attach(view);
-view.setVisible(true);
-```
-
 ## Architecture
+
 ```
-── images
-│   ├── blue-water-icon.png
-│   ├── fish-icon.png
-│   ├── next.png
-│   ├── pause.png
-│   ├── play.png
-│   ├── restart.png
-│   └── shark-icon.png
+├── multi-agents.jar
 ├── README.md
 ├── src
 │   ├── controller
 │   │   └── Main.java
+│   ├── img
+│   │   ├── blue-water-icon.png
+│   │   ├── fish-icon.png
+│   │   ├── next.png
+│   │   ├── pause.png
+│   │   ├── play.png
+│   │   ├── restart.png
+│   │   ├── shark-icon.png
+│   │   └── stone-icon.png
 │   ├── model
 │   │   ├── core
 │   │   │   ├── AgentFactory.java
 │   │   │   ├── Agent.java
 │   │   │   ├── Environment.java
+│   │   │   ├── hunt
+│   │   │   │   ├── HuntEnvironment.java
+│   │   │   │   ├── Hunter.java
+│   │   │   │   ├── Prey.java
+│   │   │   │   └── Wall.java
 │   │   │   ├── Observable.java
 │   │   │   ├── population
 │   │   │   │   ├── People.java
@@ -137,14 +142,17 @@ view.setVisible(true);
     │   └── evolution_satisfaction_grille50x50_200vs200.png
     └── fish
         ├── moyenne-age_poissons_requins_100x100_2.csv
-        ├── ... etc
+        ├── moyenne-age_poissons_requins_100x100_2.png
+        ├── ...etc
 ```
         
 ## Implémentation
 
-Les agents Fish (pour water) et People (pour city) heritent de Agent.java.
+Les agents Fish (pour water), People (pour city), Hunter/Prey (pour hunt) heritent de Agent.java.
 
 EnvironmentFactory.java permet de créer/initialiser un environnement et ses agents en un seule appel.
+Pour le jeu water, un WaterEnvironment permet de sauver les ages, et nombre de poissons et requins. Ce WaterEnvironment met a jour la grille en supprimant les thons morts à chaque tour.
+
 
 Le patron MVC est utilisé. Model sera l'Envirronnement et contient les agents.
 La vue sera MainFrame qui comporte un grille pour afficher le jeu (environnement, et agents).
@@ -156,7 +164,18 @@ MainFrame implémente Observeur.
 Lors d'un itération de la partie via Envirronnement.doIt() alors l'Envirronnement prévient ses abonnées, ici la vue.
 La vue dispose dans JPanel menu avec bouton play, pause, next, et un slider permettant d'accéler (resp. ralentir) le système.
 
-L'initialisation du système se déroule dans le controleur (voir Configuration de la partie).
+L'initialisation du système se déroule dans le controleur. **Fonctionnemant du système multi-agent** :
+
+```
+Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);
+//Environment city = EnvironmentFactory.createAndInitializeCity(30, 50, 50, 0.6f);
+
+// initiate view
+MainFrame view = new MainFrame(city);
+// attach view as observer of the model
+city.attach(view);
+view.setVisible(true);
+```
 
 ## Statistiques
 

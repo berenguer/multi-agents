@@ -57,10 +57,11 @@ public class Main {
             }
             
             else if (args[0].equals("--hunt")) {
-                System.out.println("hunt!!!");
-                if (args.length == 3) {
-                    nbType1 = Integer.parseInt(args[1]);
-                    nbType2 = Integer.parseInt(args[2]);          
+                nbType2 = 60;
+                if (args.length == 4) {
+                    size = Integer.parseInt(args[1]);
+                    nbType1 = Integer.parseInt(args[2]);
+                    nbType2 = Integer.parseInt(args[3]);          
                 }
                 HuntEnvironment env = EnvironmentFactory.createAndInitializeHunt(size, nbType1, nbType2);
                 // initiate view
@@ -69,15 +70,18 @@ public class Main {
                 env.attach(view);
                 view.setVisible(true);
             }
-            else {
-                System.out.println("Select environment with argument :\n"
-                        + "--water (int)size (int)type1 occurences (int)type2 occurences (int)Tuna birth delay "
-                        + "(int)Shark birth delay (int)Shark death delay\n"
-                        + "\texample: --water 40 200 200 1 3 3\n"
-                        + "\n"
-                        + "--city (int)size (int)type1 occurences (int)type2 occurences (float)min satisfaction\n"
-                        + "\texample: --city 20 90 90 0.7");
-            }
         }
+        else {
+            System.out.println("Select environment with argument :\n"
+                    + "--water (int)size (int)type1 occurences (int)type2 occurences (int)Tuna birth delay "
+                    + "(int)Shark birth delay (int)Shark death delay\n"
+                    + "\texample: --water 40 200 200 1 3 3\n"
+                    + "\n"
+                    + "--city (int)size (int)type1 occurences (int)type2 occurences (float)min satisfaction\n"
+                    + "\texample: --city 20 90 90 0.7\n"
+                    + "--hunt (int)size (int)hunter occurences (int)wall occurencesn"
+                    + "\texample: --hunt 40 50 30\n");
+        }
+
     }
 }
