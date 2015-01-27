@@ -179,7 +179,7 @@ Une itération du système fait appel à Environment.doIt().
 Environment.doIt() fait appel pour tous ses agents à Agent.action(). Les actions diffèrent selon le système (water, city, hunt).
 Les abonnés (vue) sont prévenus que l'environnement est mis à jour.
 
-* WaterEnvironment permet de sauver les âges, et nombre de poissons et requins. Une update de la grille supprime les thons morts à chaque tour.
+* WaterEnvironment permet de sauver les âges, et le nombre de thons, requins. Une update de la grille supprime les thons morts à chaque tour.
 * HuntEnvironment offre une méthode pour calculer le plus court chemin jusqu'à la proie : shorterPathAt(int posX, int posY)
  la partie via Envirronnement.doIt() alors l'Envirronnement prévient ses abonnées, ici la vue.
 
