@@ -6,7 +6,7 @@ Etudiants:
 
 M2 IAGL
 
-20-01-2015
+dernière édition 27-01-2015
 
 Université de Lille 1
 
@@ -29,11 +29,14 @@ En se déplaçant sur une case contenant un poisson, le poisson est mangé il di
 Tant qu'une satisfaction comprise entre 0 et 1 n'est pas satisfaite pour un agent, alors il se déplace aleatoirement dans la grille.
 La **satisfaction est calculée en prenant le nombre de voisins identique / par le nombre total de voisins sur les cases adjacentes**.
 
-## Hunting : Les chasseurs vont attrapper la proie en utilisant le plus court chemin
+## Hunting : Les chasseurs suivent le plus court chemin jusqu'a une proie qui s'échappe
 
 Les chasseurs se dirigent vers la proie. **L'algorithme Dijkstra permet de calculer toutes les distances dans la grille depuis la position de la proie**.
 A partir de cela chaque chasseur prend la main aléatoirement lors d'un tour de jeux. Le chasseur choisie la case de la grille qui lui ai adjacente et qui a la plus petite distance avec la proie.
 Cette case de plus courte distance doit être libre : pas d'autre chasseur, et pas de mûr.
+
+La proie recherche le chasseur le plus proche. Elle compare cette distance avec les mêmes distances cette fois sur les cases adjacentes.
+La proie se déplace ensuite, ou reste sur la case avec la plus petite distance du chasseur.
 
 ## Exécution via Eclipse
 
@@ -89,10 +92,7 @@ Une factory permet de ici de créer soit l'envirronement :
 
 Les arguments correspondent à la taille de la grille, nombre d'agents de type 1, nombre d'agents de type 2, et la satisfaction minimale à satisfaire qui va de 0 à 1.
 
-Pour water :
-* *WaterEnvironment water = EnvironmentFactory.createAndInitializeWater(40, 200, 200, 1, 3, 3);*
-
-Les arguments correspondent à la taille de la grille, le nombre de thons, le nombre de requins, le nombre de tour avant que le thon accouche, le nombre de tour pour que le requin accouche, et le nombre de tour pour le requin décède.
+Idem pour le système Water, ou Hunt avec les arguments correspondant (voir partie : Exécution via JAR)
 
 ## Architecture
 
@@ -150,21 +150,17 @@ Les arguments correspondent à la taille de la grille, le nombre de thons, le no
 
 Les agents Fish (pour water), People (pour city), Hunter/Prey (pour hunt) heritent de Agent.java.
 
-EnvironmentFactory.java permet de créer/initialiser un environnement et ses agents en un seule appel.
-Pour le jeu water, un WaterEnvironment permet de sauver les ages, et nombre de poissons et requins. Ce WaterEnvironment met a jour la grille en supprimant les thons morts à chaque tour.
+**EnvironmentFactory.java** permet de créer/initialiser un environnement et ses agents en un seule appel.
 
-
-Le patron MVC est utilisé. Model sera l'Envirronnement et contient les agents.
+Le **patron MVC** est utilisé. Model sera l'Envirronnement et contient les agents.
 La vue sera MainFrame qui comporte un grille pour afficher le jeu (environnement, et agents).
 
 Le **patern Observeur/Observable** est utilisé. La vue est abonnée à l'Envirronnement.
 Envirronnement implémente Observable.
 MainFrame implémente Observeur.
-
-Lors d'un itération de la partie via Envirronnement.doIt() alors l'Envirronnement prévient ses abonnées, ici la vue.
 La vue dispose dans JPanel menu avec bouton play, pause, next, et un slider permettant d'accéler (resp. ralentir) le système.
 
-L'initialisation du système se déroule dans le controleur. **Fonctionnemant du système multi-agent** :
+**Fonctionnemant du système multi-agent** :
 
 ```
 Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);
@@ -176,6 +172,16 @@ MainFrame view = new MainFrame(city);
 city.attach(view);
 view.setVisible(true);
 ```
+
+## Déroulement d'une partie
+
+Une itération du système fait appel à Environment.doIt().
+Environment.doIt() fait appel pour tous ses agents à Agent.action(). Les actions diffèrent selon le système (water, city, hunt).
+Les abonnés (vue) sont prévenus que l'environnement est mis à jour.
+
+** WaterEnvironment permet de sauver les âges, et nombre de poissons et requins. Une update de la grille supprime les thons morts à chaque tour.
+** HuntEnvironment offre une méthode pour calculer le plus court chemin jusqu'à la proie : shorterPathAt(int posX, int posY)
+ la partie via Envirronnement.doIt() alors l'Envirronnement prévient ses abonnées, ici la vue.
 
 ## Statistiques
 
