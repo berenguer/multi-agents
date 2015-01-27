@@ -88,7 +88,7 @@ java -jar multi-agents.jar --hunt 40 100 50
 
 Une factory permet de ici de créer soit l'envirronement :
 
-* *Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);*
+* Environment city = EnvironmentFactory.createAndInitializeCity(50, 800, 800, 0.7f);*
 
 Les arguments correspondent à la taille de la grille, nombre d'agents de type 1, nombre d'agents de type 2, et la satisfaction minimale à satisfaire qui va de 0 à 1.
 
@@ -179,8 +179,8 @@ Une itération du système fait appel à Environment.doIt().
 Environment.doIt() fait appel pour tous ses agents à Agent.action(). Les actions diffèrent selon le système (water, city, hunt).
 Les abonnés (vue) sont prévenus que l'environnement est mis à jour.
 
-** WaterEnvironment permet de sauver les âges, et nombre de poissons et requins. Une update de la grille supprime les thons morts à chaque tour.
-** HuntEnvironment offre une méthode pour calculer le plus court chemin jusqu'à la proie : shorterPathAt(int posX, int posY)
+* WaterEnvironment permet de sauver les âges, et nombre de poissons et requins. Une update de la grille supprime les thons morts à chaque tour.
+* HuntEnvironment offre une méthode pour calculer le plus court chemin jusqu'à la proie : shorterPathAt(int posX, int posY)
  la partie via Envirronnement.doIt() alors l'Envirronnement prévient ses abonnées, ici la vue.
 
 ## Statistiques
